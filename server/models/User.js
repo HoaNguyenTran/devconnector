@@ -3,24 +3,52 @@ const Schema = mongoose.Schema;
 
 // Create Schema
 const UserSchema = new Schema({
-  name: {
-    type: String,
+  methods: {
+    type: [String],
     require: true,
   },
-  email: {
-    type: String,
-    require: true,
+
+  local: {
+    name: {
+      type: String,
+    },
+    email: {
+      type: String,
+      lowercase: true,
+    },
+    password: {
+      type: String,
+    },
+    isVerified: {
+      type: Boolean,
+      default: false,
+    },
   },
-  password: {
-    type: String,
-    require: true,
+
+  google: {
+    name: {
+      type: String,
+    },
+    id: {
+      type: String,
+    },
+    email: {
+      type: String,
+      lowercase: true,
+    },
   },
-  avatar: {
-    type: String,
-  },
-  isVerified: {
-    type: Boolean,
-    default: false
+
+  facebook: {
+    id: {
+      type: String,
+    },
+    name: {
+      type: String,
+    },
+    email: {
+      type: String,
+      lowercase: true,
+    },
   },
 });
 

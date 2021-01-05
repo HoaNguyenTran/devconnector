@@ -12,7 +12,7 @@ module.exports.register = (req, res, next) => {
     repassword = isEmpty(repassword) ? '' : repassword;
 
     if(validator.isEmpty(name)) errors.name = "Name field is required";
-    if(!validator.isAlpha(name)) errors.name = "Name field contain only letters (a-z A-Z)";
+    if(!regex.name(name)) errors.name = "Name field contain only letters";
     if(!validator.isLength(name, { min: 2, max: 30 })) errors.name = "Name must be between 2 and 30 characters";
 
     if(validator.isEmpty(email)) errors.email = "Email field is required";

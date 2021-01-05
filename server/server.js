@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParse = require("body-parser");
 const passport = require("passport");
+const cookieParser = require('cookie-parser');
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -32,6 +33,9 @@ app.use(passport.session());
 
 // Passport config
 require("./config/passport");
+
+// Cookie-Parser
+app.use(cookieParser());
 
 // Use router
 app.use("/api/users", users);
