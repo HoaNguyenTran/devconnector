@@ -96,7 +96,9 @@ passport.use(
                   email,
                 },
               });
-              newUser.save(() => done(null, newUser));
+              newUser.save((newUser) => {
+                return done(null, newUser);
+              });
             }
           });
         });
@@ -117,7 +119,7 @@ passport.use(
       const email = profile.emails[0].value,
         id = profile.id,
         name = profile.displayName;
-        
+
       // Link facebook
       if (
         req.user &&

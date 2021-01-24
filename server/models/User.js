@@ -50,6 +50,8 @@ const UserSchema = new Schema({
       lowercase: true,
     },
   },
+
+  dateJoin: { type: Date, default: Date.now },
 });
 
 const User = mongoose.model("users", UserSchema);

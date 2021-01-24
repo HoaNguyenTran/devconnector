@@ -1,0 +1,30 @@
+{
+  "name": "devconnector",
+  "version": "1.0.0",
+  "description": "Social network for developers",
+  "main": "index.js",
+  "scripts": {
+    "client-install": "npm install --prefix client",
+    "server-install": "npm install --prefix server",
+    "client": "npm start --prefix client",
+    "server": "npm run server --prefix server",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HoaNguyenTran/devconnector.git"
+  },
+  "keywords": [
+    "devconnector"
+  ],
+  "author": "HoaTepp",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HoaNguyenTran/devconnector/issues"
+  },
+  "homepage": "https://github.com/HoaNguyenTran/devconnector#readme",
+  "dependencies": {
+    "concurrently": "^5.3.0",
+    "npm": "^6.14.11"
+  }
+}

@@ -4,6 +4,8 @@ const nodemailer = require("nodemailer");
 
 const crypto = require("crypto");
 const User = require("../models/User");
+const Profile = require("../models/Profile");
+const { formatNumber } = require("../../client/src/utils/helper");
 
 signToken = (user) => {
   return jwt.sign(
@@ -69,14 +71,14 @@ mailToken = (user, type) => {
                           <tr>
                               <td style="padding: 20px 0 20px 0; font-family: Nunito, sans-serif; font-size: 16px; text-align: center;">
                               <button style="background-color: #e04420; border: none; color: white; padding: 15px 40px; text-align: center; display: inline-block; font-family: Nunito, sans-serif; font-size: 18px; font-weight: bold; cursor: pointer;">
-                                  <a href="http:\/\/localhost:5000\/api\/users\/confirmation\/${user._id}\/${token}" target="_blank">Confirm Email</a>
+                                  <a href="http:\/\/${process.env.domain}\/api\/users\/confirmation\/${user._id}\/${token}" target="_blank">Confirm Email</a>
                               </button>
                               </td>
                           </tr>
                           <tr>
                               <td style="padding: 0; font-family: Nunito, sans-serif; font-size: 16px;">
                               If you have trouble clicking the "Confirm Email" button, copy and paste the URL below into your browser:
-                              <p id="url">&#60;http:\/\/localhost:5000\/api\/users\/confirmation\/${user._id}\/${token}&#62;</p>
+                              <p id="url">&#60;http:\/\/${process.env.domain}/api\/users\/confirmation\/${user._id}\/${token}&#62;</p>
                               </td>
                           </tr>
                           <tr>
@@ -128,14 +130,14 @@ mailToken = (user, type) => {
                           <tr>
                               <td style="padding: 20px 0 20px 0; font-family: Nunito, sans-serif; font-size: 16px; text-align: center;">
                               <button style="background-color: #e04420; border: none; color: white; padding: 15px 40px; text-align: center; display: inline-block; font-family: Nunito, sans-serif; font-size: 18px; font-weight: bold; cursor: pointer;">
-                                  <a href="http:\/\/localhost:5000\/api\/users\/reset-password\/${user._id}\/${token}" target="_blank">Reset password</a>
+                                  <a href="http:\/\/${process.env.domain}\/api\/users\/reset-password\/${user._id}\/${token}" target="_blank">Reset password</a>
                               </button>
                               </td>
                           </tr>
                           <tr>
                               <td style="padding: 0; font-family: Nunito, sans-serif; font-size: 16px;">
                               If you have trouble clicking the "Confirm Email" button, copy and paste the URL below into your browser:
-                              <p id="url">&#60;http:\/\/localhost:5000\/api\/users\/reset_password\/${user._id}\/${token}&#62;</p>
+                              <p id="url">&#60;http:\/\/${process.env.domain}\/api\/users\/reset_password\/${user._id}\/${token}&#62;</p>
                               </td>
                           </tr>
                           <tr>
@@ -171,17 +173,16 @@ mailToken = (user, type) => {
   return token;
 };
 
-module.exports.register = (req, res) => {
+module.exports.signup = (req, res) => {
   const { name, email, password } = req.body;
-  let hashPassword = null,
-    token = null;
+  let hashPassword = null;
 
   //mongodb
   User.findOne({ "local.email": email }).then((user) => {
     // if email is exist into database i.e. email is associated with another user.
     if (user)
       return res
-        .status(400)
+        .status(401)
         .json({ msg: "Email already exists. Please log in!" });
 
     // Bcrypt password
@@ -191,48 +192,67 @@ module.exports.register = (req, res) => {
 
         User.findOne({
           $or: [{ "google.email": email }, { "facebook.email": email }],
-        }).then((foundUser) => {
-          // Merge
-          if (foundUser) {
-            foundUser.methods.push("local");
-            foundUser.local = { name, email, password: hashPassword, isVerified: false };
-            foundUser.save().then((foundUser) => {
-              // Generate token
-              const accessToken = signToken(foundUser);
-              res.cookie("access_token", accessToken, { httpOnly: true });
-
-              // Send email and token
-              const verifyToken = mailToken(foundUser, "verify");
-              res.cookie("verify_token", verifyToken, { maxAge: 15*6000, httpOnly: true });
-              return res.json({ success: true });
-            });
-          }
-
-          // Create a new user
-          else {
-            const newUser = new User({
-              methods: ["local"],
-              local: {
+        })
+          .then((foundUser) => {
+            // Merge
+            if (foundUser) {
+              foundUser.methods.push("local");
+              foundUser.local = {
                 name,
                 email,
                 password: hashPassword,
-              },
-            });
+                isVerified: false,
+              };
+              foundUser.save().then((foundUser) => {
+                // Generate token
+                const accessToken = signToken(foundUser);
+                res.cookie("access_token", accessToken, { httpOnly: true });
 
-            // Save
-            newUser.save().then((user) => {
-              // Generate token
-              const accessToken = signToken(user);
-              res.cookie("access_token", accessToken, { httpOnly: true });
+                // Send email and token
+                const verifyToken = mailToken(foundUser, "verify");
+                res.cookie("verify_token", verifyToken, {
+                  maxAge: 15 * 6000,
+                  httpOnly: true,
+                });
+                return res.json({ msg: "Success" });
+              });
+            }
 
-              // Send email and token
-              const verifyToken = mailToken(user, "verify");
-              res.cookie("verify_token", verifyToken, { maxAge: 15*6000, httpOnly: true });
+            // Create a new user
+            else {
+              const newUser = new User({
+                methods: ["local"],
+                local: {
+                  name,
+                  email,
+                  password: hashPassword,
+                },
+              });
 
-              return res.json({ msg: "Success" });
-            });
-          }
-        });
+              // Save
+              newUser.save().then((user) => {
+                const profile = new Profile({
+                  username: user._id,
+                });
+
+                profile.save(() => {
+                  // Generate token
+                  const accessToken = signToken(user);
+                  res.cookie("access_token", accessToken, { httpOnly: true });
+
+                  // Send email and token
+                  const verifyToken = mailToken(user, "verify");
+                  res.cookie("verify_token", verifyToken, {
+                    maxAge: 15 * 6000,
+                    httpOnly: true,
+                  });
+
+                  return res.json({ msg: "Success" });
+                });
+              });
+            }
+          })
+          .catch((err) => res.status(500).json(err));
       });
     });
   });
@@ -247,7 +267,7 @@ module.exports.confirmEmail = (req, res) => {
           "We were unable to find a user for this verification. Please Sign Up!",
       });
     if (user.local.isVerified)
-      res.json({ msg: "User has been already verified. Please Login!" });
+      res.json({ msg: "User has been already verified. Please Sign in!" });
     if (!req.cookies === token)
       res.status(400).json({
         msg:
@@ -271,17 +291,20 @@ module.exports.resendLink = (req, res) => {
       });
     if (user.local.isVerified)
       return res.json({
-        msg: "This account has been already verified. Please login.",
+        msg: "This account has been already verified. Please signin.",
       });
 
     // Send email
     const verifyToken = mailToken(user, "verify");
-    res.cookie("verify_token", verifyToken, { maxAge: 15*6000, httpOnly: true });
-    return res.json({ msg: success });
+    res.cookie("verify_token", verifyToken, {
+      maxAge: 15 * 6000,
+      httpOnly: true,
+    });
+    return res.json({ msg: "Success" });
   });
 };
 
-module.exports.login = (req, res) => {
+module.exports.signin = (req, res) => {
   const { email, password } = req.body;
 
   User.findOne({ "local.email": email })
@@ -304,7 +327,7 @@ module.exports.login = (req, res) => {
         // Generate token
         const accessToken = signToken(user);
         res.cookie("access_token", accessToken, { httpOnly: true });
-        return res.json({ msg: "success" });
+        return res.json({ msg: "Success" });
       });
     })
     .catch((err) => res.status(500).json({ err }));
@@ -362,45 +385,76 @@ module.exports.resetPasswordToken = (req, res) => {
 };
 
 module.exports.googleOAuth = (req, res) => {
-  // Generate token
-  const accessToken = signToken(req.user);
-  res.cookie("access_token", accessToken, {
-    httpOnly: true,
+  // Add profile if first signup
+  Profile.findOneAndUpdate(
+    { username: req.user._id },
+    { $set: { username: req.user._id } },
+    { new: false, upsert: true }
+  ).then(() => {
+    // Generate token
+    const accessToken = signToken(req.user);
+    res.cookie("access_token", accessToken, {
+      httpOnly: true,
+    });
+
+    return res.json({ msg: "Success" });
   });
-  res.json({ success: true });
 };
 
 module.exports.linkGoogle = (req, res) => {
-  res.json({ 
+  return res.json({
     success: true,
-    methods: req.user.methods, 
-    message: 'Successfully linked account with Google' 
+    methods: req.user.methods,
+    message: "Successfully linked account with Google",
   });
-}
+};
 
 module.exports.facebookOAuth = (req, res) => {
-  // Generate token
-  const accessToken = signToken(req.user);
-  res.cookie("access_token", accessToken, {
-    httpOnly: true,
+  // Add profile if first signup
+  Profile.findOne({ username: req.user._id }).then(async (profile) => {
+    if (!profile) {
+      const newProfile = new Profile({
+        username: req.user._id,
+      });
+      await newProfile.save();
+    }
+    {
+      // Generate token
+      const accessToken = signToken(req.user);
+      res.cookie("access_token", accessToken, {
+        httpOnly: true,
+      });
+      return res.json({ msg: req.user });
+    }
   });
-  res.json({ msg: req.user });
 };
 
 module.exports.linkFacebook = (req, res) => {
-  res.json({ 
+  return res.json({
     success: true,
-    methods: req.user.methods, 
-    message: 'Successfully linked account with Google' 
+    methods: req.user.methods,
+    message: "Successfully linked account with Google",
   });
-}
+};
 
 module.exports.logout = (req, res) => {
-  res.clearCookie('access_token');
+  res.clearCookie("access_token");
   return res.json({ success: true });
 };
 
-
 module.exports.current = (req, res) => {
+  Profile.findOne({ username: req.user._id })
+    .populate("username")
+    .exec((err, user) => {
+      if (err) return res.status(500).json({ err });
+      console.log(user);
+    });
   return res.json(req.user);
+};
+
+module.exports.numberOfMembers = (req, res) => {
+  User.countDocuments({}, (err, count) => {
+    if (err) return res.status(500).json({ err });
+    res.json(count);
+  });
 };

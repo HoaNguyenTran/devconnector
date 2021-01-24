@@ -1,0 +1,115 @@
+.card {
+  background-color: #f9fafa;
+  margin-bottom: 16px;
+
+  &__title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #202428;
+    line-height: 1.2;
+    margin-bottom: 8;
+  }
+
+  &__sub {
+    color: #4d5766;
+    margin: 16px 0 20px;
+    color: #4d5760;
+  }
+
+  &__auth {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  &__btn {
+    padding: 14px 20px;
+    border-radius: 8px;
+
+    transition: all 0.1s;
+
+    a {
+      display: inline-block;
+      width: 100%;
+    }
+
+    &--signup {
+      background-color: #3b49df;
+      margin-bottom: 8px;
+
+      &:hover {
+        background: #3b49df radial-gradient(circle, transparent 1%, #505cdd 1%)
+          center/15000%;
+      }
+
+      &:active {
+        border: none;
+        background-size: 100%;
+        transition: all 0s;
+      }
+
+      a {
+        color: #fff;
+      }
+    }
+
+    &--signin {
+      background-color: #f9fafa;
+
+      &:hover {
+        background: #f9fafa radial-gradient(circle, transparent 1%, #eee 1%)
+          center/15000%;
+      }
+
+      &:active {
+        border: none;
+        background-size: 100%;
+        transition: all 0s;
+      }
+    }
+  }
+}
+
+nav,
+.navMore {
+  display: flex;
+  flex-direction: column;
+
+  a {
+    padding: 16px;
+    position: relative;
+    cursor: pointer;
+
+    span {
+      color: #202428;
+      padding: 32px;
+
+      svg {
+        position: absolute;
+        left: 4%;
+        top: 20%;
+      }
+    }
+  }
+  
+  &__id {
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    color: #64707d;
+  }
+}
+
+.social {
+  &__inner {
+    padding: 16px;
+    margin-top: 16px;
+
+    display: flex;
+    justify-content: space-evenly;
+
+    a {
+      color: #08090a;
+    }
+  }
+}

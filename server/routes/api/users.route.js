@@ -4,11 +4,11 @@ const passport = require("passport");
 
 const controller = require("../../controller/users.controller");
 const validate = require("../../validate/user.validate");
-router.get("/register", (req, res) => res.send("helelo"));
-// @route   POST api/users/register
-// @desc    Register user route
+// router.get("/signup", (req, res) => res.send("helelo"));
+// @route   POST api/users/signup
+// @desc    signup user route
 // @access  Public
-router.post("/register", validate.register, controller.register);
+router.post("/signup", validate.signup, controller.signup);
 
 // @route   GET api/users/confirmation/:_id/:token
 // @desc    Verify email
@@ -20,10 +20,10 @@ router.get("/confirmation/:_id/:token", controller.confirmEmail);
 // @access  Public
 router.post("/resend", controller.resendLink);
 
-// @route   POST api/users/login
-// @desc    Login by local user route
+// @route   POST api/users/signin
+// @desc    signin by local user route
 // @access  Public
-router.post("/login", validate.login, controller.login);
+router.post("/signin", validate.signin, controller.signin);
 
 // @route   POST api/users/resetpassword
 // @desc    Reset password
@@ -40,7 +40,7 @@ router.post(
 );
 
 // @route   POST api/users/oauth/google
-// @desc    Login by google account
+// @desc    Signin by google account
 // @access  Private
 router.post(
   "/oauth/google",
@@ -59,7 +59,7 @@ router.post(
 );
 
 // @route   POST api/users/oauth/facebook
-// @desc    Login by facebook account
+// @desc    Signin by facebook account
 // @access  Private
 router.post(
   "/oauth/facebook",
@@ -95,10 +95,19 @@ router.get(
   controller.current
 );
 
-// @route   GET api/users/current
-// @desc    Return current user
-// @access  Private
+// @route   GET api/users/number_of_members
+// @desc    Return number of members 
+// @access  Public
+router.get(
+  "/number_of_members",
+  controller.numberOfMembers
+);
 
-router.get("/test", (req, res) => res.json(req.user));
+// @route   GET api/users/current
+// @desc    Return number of members
+// @access  Public
+
+
+router.get("/", (req, res) => res.json(req.user));
 
 module.exports = router;
