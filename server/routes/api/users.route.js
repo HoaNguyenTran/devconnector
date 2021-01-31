@@ -4,11 +4,16 @@ const passport = require("passport");
 
 const controller = require("../../controller/users.controller");
 const validate = require("../../validate/user.validate");
-// router.get("/signup", (req, res) => res.send("helelo"));
+
 // @route   POST api/users/signup
-// @desc    signup user route
+// @desc    Signup user
 // @access  Public
 router.post("/signup", validate.signup, controller.signup);
+
+// @route   GET api/users/send_token
+// @desc    get token
+// @access  Public
+router.get("/get-token", controller.getToken);
 
 // @route   GET api/users/confirmation/:_id/:token
 // @desc    Verify email
@@ -96,17 +101,13 @@ router.get(
 );
 
 // @route   GET api/users/number_of_members
-// @desc    Return number of members 
+// @desc    Return number of members
 // @access  Public
-router.get(
-  "/number_of_members",
-  controller.numberOfMembers
-);
+router.get("/number_of_members", controller.numberOfMembers);
 
 // @route   GET api/users/current
 // @desc    Return number of members
 // @access  Public
-
 
 router.get("/", (req, res) => res.json(req.user));
 

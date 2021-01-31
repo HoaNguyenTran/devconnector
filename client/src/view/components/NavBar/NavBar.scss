@@ -77,8 +77,20 @@ button {
   &__btn {
     margin-right: 1rem;
 
+    // a:first-child {
+
+    //   button {
+    //     color: #6e6d7a;
+    //     background-color: transparent;
+    //   }
+    // }
     button {
       width: 6rem;
+    }
+
+    &--signin {
+      color: #6e6d7a;
+        background-color: transparent;
     }
   }
 }

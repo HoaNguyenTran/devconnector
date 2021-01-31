@@ -1,6 +1,6 @@
 :root {
   --color: #3b49df;
-  --backColor: #eef0f1;
+  --backColor: #f0f0f0;
   background-color: var(--backColor);
 }
 
@@ -83,7 +83,7 @@
 
     &--error {
       display: block;
-      height: 1.6em;
+      height: 2rem;
       margin-top: .2rem;
 
       font-size: 14px;
@@ -178,7 +178,7 @@
   }
 
   &__another {
-    margin-top: 2rem;
+    margin-top: 2.2rem;
     text-align: center;
 
     a {

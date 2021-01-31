@@ -48,38 +48,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function NavBar(props) {
+export default function NavBar() {
   const classes = useStyles();
   const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.up("md"));
-
+  
   const [auth, setAuth] = useState(false);
   const [drawer, setDrawer] = useState(false);
-
+  
+  const matches = useMediaQuery(theme.breakpoints.up("md"));
   const toolBar = `toolBar ${matches && classes.toolBarPC}`;
-
-  const account = () => {
-    switch (props.acc) {
-      case "signin":
-        return (
-          <Link to="/auth/signin">
-            <button>Sign in</button>
-          </Link>
-        );
-        case "signup":
-          return (
-            <Link to="/auth/signup">
-              <button>Sign up</button>
-            </Link>
-          );
-      default:
-        return (
-          <Link to="/auth/signin">
-            <button>Sign in</button>
-          </Link>
-        );
-    }
-  };
 
   useEffect(() => {
     const resizeListener = () => {
@@ -142,7 +119,16 @@ export default function NavBar(props) {
             <AccountCircleOutlinedIcon className={classes.authIcon} />
           </div>
         ) : (
-          <div className="header__btn">{ account() }</div>
+          <div className="header__btn">
+            {matches && (
+              <Link to="/auth/signin">
+                <button className="header__btn--signin">Sign in</button>
+              </Link>
+            )}
+            <Link to="/auth/signup">
+              <button>Sign up</button>
+            </Link>
+          </div>
         )}
       </Toolbar>
     </AppBar>

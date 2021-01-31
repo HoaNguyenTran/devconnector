@@ -15,7 +15,7 @@ module.exports.signup = (req, res, next) => {
   if (!regex.name(name)) errors.name = "Name field contain only letters";
   if (!validator.isLength(name, { min: 2, max: 30 }))
     errors.name = "Name must be between 2 and 30 characters";
-
+   
   if (validator.isEmpty(email)) errors.email = "Email field is required";
   if (!validator.isEmail(email)) errors.email = "Email is invalid";
 
@@ -28,7 +28,6 @@ module.exports.signup = (req, res, next) => {
     errors.repassword = "Repeat password field required";
   if (!validator.equals(password, repassword))
     errors.repassword = "Password and repeat password must match";
-
   if (!isEmpty(errors)) return res.status(400).json({ errors });
 
   next();

@@ -14,7 +14,7 @@ export default function SignIn() {
 
   return (
     <div className="container-signin">
-      <NavBar acc="signup" />
+      <NavBar/>
       <div className="left">
         <img src={signinImg} alt="" />
       </div>

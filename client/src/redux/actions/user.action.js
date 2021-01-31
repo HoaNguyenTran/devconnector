@@ -1,19 +1,23 @@
 import axios from "axios";
+import history from "../../utils/helper/history";
+
 import {
   fetchNumOfMemFailure,
-  fetchNumOfMemResquest,
+  fetchNumOfMemRequest,
   fetchNumOfMemSuccess,
-
   fetchSignUpFailure,
-  fetchSignupResquest,
+  fetchSignupRequest,
   fetchSignUpSuccess,
+  fetchTokenFailure,
+  fetchTokenRequest,
+  fetchTokenSucces,
 } from "./index.action";
 
 export const fetchNumberOfMembers = () => {
   return (dispatch) => {
-    dispatch(fetchNumOfMemResquest());
+    dispatch(fetchNumOfMemRequest());
     axios
-      .get(`http://localhost:5000/api/users/number_of_members`)
+      .get("/api/users/number_of_members")
       .then((responsive) => {
         dispatch(fetchNumOfMemSuccess(responsive.data));
       })
@@ -24,17 +28,29 @@ export const fetchNumberOfMembers = () => {
 };
 
 export const fetchSignUp = (data) => {
-  console.log(data);
-  
   return (dispatch) => {
-    dispatch(fetchSignupResquest());
+    dispatch(fetchSignupRequest());
     axios
-      .post(`http://localhost:5000/api/users/signup`, data)
+      .post("/api/users/signup", data)
       .then((responsive) => {
         dispatch(fetchSignUpSuccess(responsive.data));
+        const { userId, verifyToken } = responsive.data;
+        history.push(`/auth/confirm-email/${userId}/${verifyToken}`);
       })
       .catch((error) => {
         dispatch(fetchSignUpFailure(error.message));
       });
   };
+};
+
+export const fetchToken = () => async (dispatch) => {
+  dispatch(fetchTokenRequest());
+  await axios
+    .get("/api/users/get-token")
+    .then((responsive) => {
+      dispatch(fetchTokenSucces(responsive.data));
+    })
+    .catch((error) => {
+      dispatch(fetchTokenFailure(error.message));
+    });
 };

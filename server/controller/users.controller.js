@@ -38,121 +38,123 @@ mailToken = (user, type) => {
 
   // Content mail
   if (type === "verify") {
-    subject = "Account Verification Link";
+    subject = "Confirm your email at DevConnector";
     content = `
-              <table align="center" cellpadding="0" cellspacing="0" width="95%">
-              <tr>
-                  <td align="center">
-                  <table align="center" cellpadding="0" cellspacing="0" width="600" style="border-spacing: 2px 5px;" bgcolor="#fff">
-                      <tr>
-                      <td bgcolor="#fff">
-                          <table cellpadding="0" cellspacing="0" width="100%%">
-                          <tr>
-                              <td style="padding: 10px 0 10px 0; font-family: Nunito, sans-serif; font-size: 20px; font-weight: 900">
-                              Activate your DevConnector account
-                              </td>
-                          </tr>
-                          </table>
-                      </td>
-                      </tr>
-                      <tr>
-                      <td bgcolor="#fff">
-                          <table cellpadding="0" cellspacing="0" width="100%%">
-                          <tr>
-                              <td style="padding: 20px 0 20px 0; font-family: Nunito, sans-serif; font-size: 16px;">
-                              Hi, <span id="name">&#60;${user.local.name}&#62;</span>
-                              </td>
-                          </tr>
-                          <tr>
-                              <td style="padding: 0; font-family: Nunito, sans-serif; font-size: 16px;">
-                                  Thank you for registering on DevConnector. Please confirm this email to activate your DevConnector account.
-                              </td>
-                          </tr>
-                          <tr>
-                              <td style="padding: 20px 0 20px 0; font-family: Nunito, sans-serif; font-size: 16px; text-align: center;">
-                              <button style="background-color: #e04420; border: none; color: white; padding: 15px 40px; text-align: center; display: inline-block; font-family: Nunito, sans-serif; font-size: 18px; font-weight: bold; cursor: pointer;">
-                                  <a href="http:\/\/${process.env.domain}\/api\/users\/confirmation\/${user._id}\/${token}" target="_blank">Confirm Email</a>
-                              </button>
-                              </td>
-                          </tr>
-                          <tr>
-                              <td style="padding: 0; font-family: Nunito, sans-serif; font-size: 16px;">
-                              If you have trouble clicking the "Confirm Email" button, copy and paste the URL below into your browser:
-                              <p id="url">&#60;http:\/\/${process.env.domain}/api\/users\/confirmation\/${user._id}\/${token}&#62;</p>
-                              </td>
-                          </tr>
-                          <tr>
-                              <td style="padding: 50px 0; font-family: Nunito, sans-serif; font-size: 16px;">
-                              Regards,
-                              <p>DevConnector</p>
-                              </td>
-                          </tr>
-                          </table>
-                      </td>
-                      </tr>
-                  </table>
-                  </td>
-              </tr>
-              </table>
+    <div style="background-color: #f0f0f0; padding-bottom: 8rem">
+	<div style="padding: 50px 0 10px 0; font-family: Nunito, sans-serif; font-size: 28px; font-weight: 700; text-align: center; margin-bottom: 1.6rem">DevConnector</div>
+	<table align="center" cellpadding="0" cellspacing="0" >
+		<tr >
+			<td align="center">
+				<table align="center" cellpadding="0" cellspacing="0" width="600" style="border-spacing: 2px 5px; padding: 4rem" bgcolor="#fff">
+					<tr>
+						<td bgcolor="#fff">
+							<table cellpadding="0" cellspacing="0" width="100%%">
+								<tr>
+									<td style="padding: 20px 0 20px 0; font-family: Nunito, sans-serif;">
+										<h3 style="margin-bottom: -.5rem">
+                    Hi, 
+											<span id="name">&#60;${user.local.name}&#62;</span>
+										</h3>
+										<p style="font-size: 16px; font-weight: 300;margin-bottom: 0">Welcome to Devconnector!</p>
+                    ___________________________________
+                    
+									</td>
+								</tr>
+								<tr>
+									<td style="padding-top: 1rem; font-family: Nunito, sans-serif; font-size: 16px;">
+                        Thank you for registering on DevConnector. Please confirm this email to activate your DevConnector account.
+                    </td>
+								</tr>
+								<tr>
+									<td style="padding: 20px 0 20px 0; font-family: Nunito, sans-serif; font-size: 16px; text-align: center;">
+										<button style="background-color: #3b49df; border: none; border-radius: 8px; color: white; padding: 15px 40px; text-align: center; display: inline-block; font-family: Nunito, sans-serif; font-size: 18px; font-weight: bold; cursor: pointer;">
+											<a href="http:\/\/${process.env.domain}\/api\/users\/confirmation\/${user._id}\/${token}" target="_blank" style="color: #fff; text-decoration: none">Confirm Email</a>
+										</button>
+									</td>
+								</tr>
+								<tr>
+									<td style="padding: 0; font-family: Nunito, sans-serif; font-size: 16px;">
+                    If you have trouble clicking the "Confirm Email" button, copy and paste the URL below into your browser:
+                    
+										<p id="url">&#60;http:\/\/${process.env.domain}/api\/users\/confirmation\/${user._id}\/${token}&#62;</p>
+									</td>
+								</tr>
+								<tr>
+									<td style="padding: 50px 100px 16px 0; font-family: Nunito, sans-serif; font-size: 16px;">
+										<div style="text-align: right">
+											<p style="margin-right: 16px">Regards,</p>
+											<p>DevConnector</p>
+										</div>
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+</div>
               `;
   }
   if (type === "reset") {
-    subject = "Reset Password Link";
+    subject = "Reset your password at Devconnector";
     content = `
-              <table align="center" cellpadding="0" cellspacing="0" width="95%">
-              <tr>
-                  <td align="center">
-                  <table align="center" cellpadding="0" cellspacing="0" width="600" style="border-spacing: 2px 5px;" bgcolor="#fff">
-                      <tr>
-                      <td bgcolor="#fff">
-                          <table cellpadding="0" cellspacing="0" width="100%%">
-                          <tr>
-                              <td style="padding: 10px 0 10px 0; font-family: Nunito, sans-serif; font-size: 20px; font-weight: 900">
-                              Reset your password DevConnector account
-                              </td>
-                          </tr>
-                          </table>
+    <div style="background-color: #f0f0f0; padding-bottom: 8rem">
+    <div style="padding: 50px 0 10px 0; font-family: Nunito, sans-serif; font-size: 28px; font-weight: 700; text-align: center; margin-bottom: 1.6rem">DevConnector</div>
+    <table align="center" cellpadding="0" cellspacing="0" >
+      <tr >
+        <td align="center">
+          <table align="center" cellpadding="0" cellspacing="0" width="600" style="border-spacing: 2px 5px; padding: 4rem" bgcolor="#fff">
+            <tr>
+              <td bgcolor="#fff">
+                <table cellpadding="0" cellspacing="0" width="100%%">
+                  <tr>
+                    <td style="padding: 20px 0 20px 0; font-family: Nunito, sans-serif;">
+                      <h3 style="margin-bottom: -.5rem">
+                      Hi, 
+                        <span id="name">&#60;${user.local.name}&#62;</span>
+                      </h3>
+                      <p style="font-size: 16px; font-weight: 300;margin-bottom: 0">Welcome to Devconnector!</p>
+                      ___________________________________
+                      
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding-top: 1rem; font-family: Nunito, sans-serif; font-size: 16px;">
+                          Please confirm this email to reset your password DevConnector account.
                       </td>
-                      </tr>
-                      <tr>
-                      <td bgcolor="#fff">
-                          <table cellpadding="0" cellspacing="0" width="100%%">
-                          <tr>
-                              <td style="padding: 20px 0 20px 0; font-family: Nunito, sans-serif; font-size: 16px;">
-                              Hi, <span id="name">&#60;${user.local.name}&#62;</span>
-                              </td>
-                          </tr>
-                          <tr>
-                              <td style="padding: 0; font-family: Nunito, sans-serif; font-size: 16px;">
-                                  Please confirm this email to reset your password DevConnector account.
-                              </td>
-                          </tr>
-                          <tr>
-                              <td style="padding: 20px 0 20px 0; font-family: Nunito, sans-serif; font-size: 16px; text-align: center;">
-                              <button style="background-color: #e04420; border: none; color: white; padding: 15px 40px; text-align: center; display: inline-block; font-family: Nunito, sans-serif; font-size: 18px; font-weight: bold; cursor: pointer;">
-                                  <a href="http:\/\/${process.env.domain}\/api\/users\/reset-password\/${user._id}\/${token}" target="_blank">Reset password</a>
-                              </button>
-                              </td>
-                          </tr>
-                          <tr>
-                              <td style="padding: 0; font-family: Nunito, sans-serif; font-size: 16px;">
-                              If you have trouble clicking the "Confirm Email" button, copy and paste the URL below into your browser:
-                              <p id="url">&#60;http:\/\/${process.env.domain}\/api\/users\/reset_password\/${user._id}\/${token}&#62;</p>
-                              </td>
-                          </tr>
-                          <tr>
-                              <td style="padding: 50px 0; font-family: Nunito, sans-serif; font-size: 16px;">
-                              Regards,
-                              <p>DevConnector</p>
-                              </td>
-                          </tr>
-                          </table>
-                      </td>
-                      </tr>
-                  </table>
-                  </td>
-              </tr>
-              </table>
+                  </tr>
+                  <tr>
+                    <td style="padding: 20px 0 20px 0; font-family: Nunito, sans-serif; font-size: 16px; text-align: center;">
+                      <button style="background-color: #3b49df; border: none; border-radius: 8px; color: white; padding: 15px 30px; text-align: center; display: inline-block; font-family: Nunito, sans-serif; font-size: 18px; font-weight: bold; cursor: pointer;">
+                        <a href="http:\/\/${process.env.domain}\/api\/users\/confirmation\/${user._id}\/${token}" target="_blank" style="color: #fff; text-decoration: none">Reset Password</a>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 0; font-family: Nunito, sans-serif; font-size: 16px;">
+                      If you have trouble clicking the "Reset Password" button, copy and paste the URL below into your browser:
+                      
+                      <p id="url">&#60;http:\/\/${process.env.domain}/api\/users\/confirmation\/${user._id}\/${token}&#62;</p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 50px 100px 16px 0; font-family: Nunito, sans-serif; font-size: 16px;">
+                      <div style="text-align: right">
+                        <p style="margin-right: 16px">Regards,</p>
+                        <p>DevConnector</p>
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </div>
               `;
   }
 
@@ -180,6 +182,7 @@ module.exports.signup = (req, res) => {
   //mongodb
   User.findOne({ "local.email": email }).then((user) => {
     // if email is exist into database i.e. email is associated with another user.
+
     if (user)
       return res
         .status(401)
@@ -204,17 +207,19 @@ module.exports.signup = (req, res) => {
                 isVerified: false,
               };
               foundUser.save().then((foundUser) => {
+
                 // Generate token
-                const accessToken = signToken(foundUser);
+                // const accessToken = signToken(foundUser);
                 res.cookie("access_token", accessToken, { httpOnly: true });
 
                 // Send email and token
                 const verifyToken = mailToken(foundUser, "verify");
                 res.cookie("verify_token", verifyToken, {
-                  maxAge: 15 * 6000,
+                  maxAge: 15 * 60000,
                   httpOnly: true,
                 });
-                return res.json({ msg: "Success" });
+
+                return res.json({ msg: "Success", verifyToken: verifyToken });
               });
             }
 
@@ -238,16 +243,20 @@ module.exports.signup = (req, res) => {
                 profile.save(() => {
                   // Generate token
                   const accessToken = signToken(user);
-                  res.cookie("access_token", accessToken, { httpOnly: true });
+                  // res.cookie("access_token", accessToken, { httpOnly: true });
 
                   // Send email and token
                   const verifyToken = mailToken(user, "verify");
                   res.cookie("verify_token", verifyToken, {
-                    maxAge: 15 * 6000,
+                    maxAge: 15 * 60000,
                     httpOnly: true,
                   });
 
-                  return res.json({ msg: "Success" });
+                  return res.json({
+                    msg: "Success",
+                    userId: user._id,
+                    verifyToken: verifyToken,
+                  });
                 });
               });
             }
@@ -256,6 +265,12 @@ module.exports.signup = (req, res) => {
       });
     });
   });
+};
+
+module.exports.getToken = (req, res) => {
+  // console.log(req.cookies);
+  
+  return res.json({ token: req.cookies });
 };
 
 module.exports.confirmEmail = (req, res) => {
@@ -268,7 +283,7 @@ module.exports.confirmEmail = (req, res) => {
       });
     if (user.local.isVerified)
       res.json({ msg: "User has been already verified. Please Sign in!" });
-    if (!req.cookies === token)
+    if (!req.cookies.verify_token === token)
       res.status(400).json({
         msg:
           "Your verification link may have expired. Please click on resend for verify your Email.",
@@ -276,6 +291,8 @@ module.exports.confirmEmail = (req, res) => {
     user.local.isVerified = true;
     user.save().then((user) => {
       if (!user) return res.status(500).json({ msg: err.message });
+      // cookies.set('verify_token', {maxAge: 0});
+      res.clearCookie("verify_token");
       return res.json({ msg: "Your account has been successfully verified" });
     });
   });
@@ -443,12 +460,11 @@ module.exports.logout = (req, res) => {
 };
 
 module.exports.current = (req, res) => {
-  Profile.findOne({ username: req.user._id })
-    .populate("username")
-    .exec((err, user) => {
-      if (err) return res.status(500).json({ err });
-      console.log(user);
-    });
+  // Profile.findOne({ username: req.user._id })
+  //   .populate("username")
+  //   .exec((err, user) => {
+  //     if (err) return res.status(500).json({ err });
+  //   });
   return res.json(req.user);
 };
 

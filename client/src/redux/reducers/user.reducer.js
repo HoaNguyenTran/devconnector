@@ -1,23 +1,25 @@
 import {
-  FETCH_NUMOFMEM_FAILURE,
   FETCH_NUMOFMEM_REQUEST,
   FETCH_NUMOFMEM_SUCCESS,
+  FETCH_NUMOFMEM_FAILURE,
+  FETCH_SIGNUP_REQUEST,
   FETCH_SIGNUP_SUCCESS,
   FETCH_SIGNUP_FAILURE,
-  FETCH_SIGNUP_REQUEST,
+  FETCH_TOKEN_SUCCESS,
+  FETCH_TOKEN_REQUEST,
+  FETCH_TOKEN_FAILURE,
 } from "../constants/user.constants";
 
+const initialObj = {
+  loading: false,
+  data: null,
+  error: null,
+};
+
 const initialState = {
-  numberOfMembers: {
-    loading: false,
-    data: [],
-    error: "",
-  },
-  signup: {
-    loading: false,
-    data: [],
-    error: "",
-  },
+  numberOfMembers: initialObj,
+  signup: initialObj,
+  token: initialObj,
 };
 
 const userReducer = (state = initialState, action) => {
@@ -26,7 +28,7 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         numberOfMembers: {
-          ...state.numberOfMembers,
+          ...initialState.numberOfMembers,
           loading: true,
         },
       };
@@ -34,8 +36,7 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         numberOfMembers: {
-          ...state.numberOfMembers,
-          loading: false,
+          ...initialState.numberOfMembers,
           data: action.payload,
         },
       };
@@ -43,17 +44,17 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         numberOfMembers: {
-          ...state,
-          loading: false,
+          ...initialState.numberOfMembers,
           error: action.payload,
         },
       };
+
 
     case FETCH_SIGNUP_REQUEST:
       return {
         ...state,
         signup: {
-          ...state.signup,
+          ...initialState.signup,
           loading: true,
         },
       };
@@ -61,8 +62,7 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         signup: {
-          ...state.signup,
-          loading: false,
+          ...initialState.signup,
           data: action.payload,
         },
       };
@@ -70,8 +70,36 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         signup: {
-          ...state.signup,
-          loading: false,
+          ...initialState.signup,
+          error: action.payload,
+        },
+      };
+
+
+
+    case FETCH_TOKEN_REQUEST:
+      return {
+        ...state,
+        token: {
+          ...initialState.token,
+          loading: true,
+        },
+      };
+
+    case FETCH_TOKEN_SUCCESS:
+      return {
+        ...state,
+        token: {
+          ...initialState.token,
+          data: action.payload,
+        },
+      };
+
+    case FETCH_TOKEN_FAILURE:
+      return {
+        ...state,
+        token: {
+          ...initialState.token,
           error: action.payload,
         },
       };

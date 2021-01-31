@@ -5,9 +5,12 @@ import {
   FETCH_SIGNUP_REQUEST,
   FETCH_SIGNUP_SUCCESS,
   FETCH_SIGNUP_FAILURE,
+  FETCH_TOKEN_REQUEST,
+  FETCH_TOKEN_FAILURE,
+  FETCH_TOKEN_SUCCESS,
 } from "../constants/user.constants";
 
-export const fetchNumOfMemResquest = () => {
+export const fetchNumOfMemRequest = () => {
   return {
     type: FETCH_NUMOFMEM_REQUEST,
   };
@@ -20,16 +23,18 @@ export const fetchNumOfMemSuccess = (data) => {
   };
 };
 
-export const fetchSignupResquest = () => {
-  return {
-    type: FETCH_SIGNUP_REQUEST,
-  };
-};
-
 export const fetchNumOfMemFailure = (error) => {
   return {
     type: FETCH_NUMOFMEM_FAILURE,
     payload: error,
+  };
+};
+
+
+
+export const fetchSignupRequest = () => {
+  return {
+    type: FETCH_SIGNUP_REQUEST,
   };
 };
 
@@ -46,3 +51,25 @@ export const fetchSignUpFailure = (error) => {
     payload: error,
   };
 };
+
+
+
+export const fetchTokenRequest = () => {
+  return {
+    type: FETCH_TOKEN_REQUEST,
+  }
+}
+
+export const fetchTokenSucces = (data) => {
+  return {
+    type: FETCH_TOKEN_SUCCESS,
+    payload: data.token
+  }
+}
+
+export const fetchTokenFailure = (error) => {
+  return {
+    type: FETCH_TOKEN_FAILURE,
+    payload: error
+  }
+}

@@ -19,7 +19,6 @@ function Banner({ numberOfMembers, fetchNumberOfMembers }) {
 
   useEffect(() => {
     fetchNumberOfMembers();
-    // console.log(numberOfMembers);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

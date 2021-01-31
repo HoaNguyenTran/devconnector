@@ -12,10 +12,19 @@ import VisibilityOffOutlinedIcon from "@material-ui/icons/VisibilityOffOutlined"
 import "./SignUp.scss";
 import NavBar from "../../../components/NavBar/NavBar";
 import { formatNumber } from "../../../../utils/helper";
-import { fetchNumberOfMembers, fetchSignUp } from "../../../../redux/actions/user.action";
-import { valChangeSignup } from "../../../../utils/validation";
+import {
+  fetchNumberOfMembers,
+  fetchSignUp,
+} from "../../../../redux/actions/user.action";
+import { valBlurSignup } from "../../../../utils/validation";
 
-function SignUp({ numberOfMembers, fetchNumberOfMembers, signup, fetchSignUp }) {
+function SignUp({
+  numberOfMembers,
+  fetchNumberOfMembers,
+  signup,
+  fetchSignUp
+}) {
+
   const initialRequired = {
     name: "",
     email: "",
@@ -23,10 +32,10 @@ function SignUp({ numberOfMembers, fetchNumberOfMembers, signup, fetchSignUp }) 
     repassword: "",
   };
   const initialError = {
-    name: "Name field required",
-    email: "Email field required",
-    password: "Password field required",
-    repassword: "Repeat password field required",
+    name: "Name field is required",
+    email: "Email field is required",
+    password: "Password is field required",
+    repassword: "Repeat password is field required",
   };
 
   const [inputs, setInputs] = useState({});
@@ -35,7 +44,6 @@ function SignUp({ numberOfMembers, fetchNumberOfMembers, signup, fetchSignUp }) 
 
   useEffect(() => {
     fetchNumberOfMembers();
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -48,33 +56,44 @@ function SignUp({ numberOfMembers, fetchNumberOfMembers, signup, fetchSignUp }) 
   };
 
   const onBlurValidate = (e) => {
-    const error = valChangeSignup(e.target.name, inputs[e.target.name]);
+    const error = valBlurSignup(e.target.name, inputs[e.target.name]);
     setErrors({ ...errors, ...error });
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
+    if(JSON.stringify(inputs) === JSON.stringify({})) {
+      setErrors(initialError);
+      return;
+    }
+
     if (inputs.password !== inputs.repassword) {
       setErrors({
         ...errors,
         repassword: "Password and repeat password must match",
       });
+      return;
+    } else {
+      setErrors({
+        ...errors,
+        repassword: "",
+      });
     }
 
     if (
       JSON.stringify(errors) === JSON.stringify(initialRequired) &&
-      JSON.stringify(inputs) !== JSON.stringify(initialRequired)
+      Object.keys(inputs).length === 4
     ) {
       fetchSignUp(inputs);
-    } else {
-      setErrors({ ...initialError, ...errors });
+      return;
     }
-    // console.log(inputs);
+
+    return;
   };
 
   return (
     <div className="container-signup">
-      <NavBar acc="signin" />
+      <NavBar />
       <div className="right">
         <img src={signupImg} alt="" />
       </div>
@@ -83,6 +102,7 @@ function SignUp({ numberOfMembers, fetchNumberOfMembers, signup, fetchSignUp }) 
           <div className="signup">
             <div className="signup__title">
               <h2 className="signup__title--main">Let's Get Started!</h2>
+              {/* {!signup.loading && signup.error && <div>sada</div>} */}
               <p className="signup__title--sub">
                 DevConnector is a community of{" "}
                 {numberOfMembers.loading
@@ -91,7 +111,13 @@ function SignUp({ numberOfMembers, fetchNumberOfMembers, signup, fetchSignUp }) 
                 ,000 amazing developers
               </p>
             </div>
-            <form onSubmit={onSubmit} className="signup__form">
+            <form
+              onSubmit={onSubmit}
+              onKeyPress={(e) => {
+                e.key === "Enter" && e.preventDefault();
+              }}
+              className="signup__form"
+            >
               <div className="signup__form--input signup__form--name">
                 <PersonOutlineOutlinedIcon className="signup__form--icon" />
                 <input
@@ -194,7 +220,7 @@ function SignUp({ numberOfMembers, fetchNumberOfMembers, signup, fetchSignUp }) 
 const mapStateToProps = (state) => {
   return {
     numberOfMembers: state.user.numberOfMembers,
-    signup: state.user.signup
+    signup: state.user.signup,
   };
 };
 

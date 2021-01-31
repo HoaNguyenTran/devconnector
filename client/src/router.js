@@ -1,15 +1,14 @@
-import React from 'react'
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  
-} from "react-router-dom";
+import React from "react";
+import { Router, Switch, Route } from "react-router-dom";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 
-import NavBar from './view/components/NavBar/NavBar';
-import SignIn from './view/pages/auth/SignIn/SignIn';
-import SignUp from './view/pages/auth/SignUp/SignUp';
+import history from "./utils/helper/history"
+
+import NavBar from "./view/components/NavBar/NavBar";
+import SignIn from "./view/pages/auth/SignIn/SignIn";
+import SignUp from "./view/pages/auth/SignUp/SignUp";
+import ConfirmEmail from "./view/pages/auth/ConfirmEmail/ConfirmEmail";
+import ProtectedRoute from "./view/components/ProtectedRoute/ProtectedRoute";
 
 
 const theme = createMuiTheme({
@@ -19,26 +18,31 @@ const theme = createMuiTheme({
       sm: 450,
       md: 768,
       lg: 1025,
-      xl: 1200
-    }
-  }
+      xl: 1200,
+    },
+  },
 });
 export default function App() {
   return (
     <MuiThemeProvider theme={theme}>
-      <Router>
+      <Router history={history}>
         <Switch>
-          <Route path="/" exact>
-            <NavBar/>
+          <Route exact path="/">
+            <NavBar />
           </Route>
-          <Route path="/auth/signin">
+          <Route exact path="/auth/signin">
             <SignIn />
           </Route>
-          <Route path="/auth/signup">
+          <Route exact path="/auth/signup">
             <SignUp />
           </Route>
+          <Route path="/auth/confirm-email/:id/:token">
+            <ConfirmEmail />
+          </Route>
+          {/* <ProtectedRoute path="/auth/confirm-email/:id/:token" component={ConfirmEmail} />  */}
+          <Route>404</Route>
         </Switch>
       </Router>
     </MuiThemeProvider>
-  )
+  );
 }

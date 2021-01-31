@@ -18,12 +18,12 @@ app.use(cors());
 
 // Connector to MongoDB
 mongoose
-.connect(process.env.mongoURI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-.then(() => console.log("MongoDB Connected"))
-.catch((err) => console.log(err));
+  .connect(process.env.mongoURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log("MongoDB Connected"))
+  .catch((err) => console.log(err));
 
 mongoose.set("useNewUrlParser", true);
 mongoose.set("useFindAndModify", false);
