@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Card, CardContent, Divider } from "@material-ui/core";
 
@@ -11,44 +11,35 @@ import LinkedInIcon from "@material-ui/icons/LinkedIn";
 
 import "./Banner.scss";
 import { fetchNumberOfMembers } from "../../../redux/actions/user.action";
-import { formatNumber } from "../../../utils/helper";
+import ButtonCommon from "../../common/Button/ButtonCommon";
+import { formatNumber } from "../../../utils/helper/regex";
 
-function Banner({ numberOfMembers, fetchNumberOfMembers }) {
-  const [auth, setAuth] = useState(false);
+function Banner({ numberOfMembers, fetchNumberOfMembers, component }) {
+  const {auth} = useSelector((state) => state.user);
   const [more, setMore] = useState(false);
 
   useEffect(() => {
     fetchNumberOfMembers();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line
   }, []);
 
   return (
-    <div style={{ margin: 12 }}>
-      {auth ? null : (
+    <div style={{ margin: 12, maxWidth: 300 }}>
+      { !auth.loading && !auth.data && (
         <Card className="card">
           <CardContent>
             <h3 className="card__title">
-              <Link to="/">
-                DevConnector
-              </Link>{" "}
-              is a community of {numberOfMembers.loading ? "" : formatNumber(numberOfMembers.data)},000 amazing developers
+              <Link to="/">DevConnector</Link> is a community of{" "}
+              {numberOfMembers.loading
+                ? ""
+                : formatNumber(numberOfMembers.data)}
+              ,000 amazing developers
             </h3>
             <p className="card__sub">
               We're a place where coders share, stay up-to-date and grow their
               careers.
             </p>
-            <div className="card__auth">
-              <button className="card__btn card__btn--signup">
-                <Link to="/">
-                  Create new account
-                </Link>
-              </button>
-              <button className="card__btn card__btn--signin">
-                <Link to="/">
-                  Login
-                </Link>
-              </button>
-            </div>
+            <ButtonCommon />
           </CardContent>
         </Card>
       )}
@@ -93,9 +84,9 @@ function Banner({ numberOfMembers, fetchNumberOfMembers }) {
             Home
           </span>
         </Link>
-        {!auth && (
+        { !auth.loading && !auth.data && (
           <Link to="/auth/signin">
-            <span style={{ fontWeight: 700 }}>
+            <span style={{ fontWeight: 600 }}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 44 44"
@@ -132,8 +123,63 @@ function Banner({ numberOfMembers, fetchNumberOfMembers }) {
             </span>
           </Link>
         )}
-        <Link to="/">
-          <span title="Listings">
+        <Link to="/readinglist">
+          <span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 44 44"
+              width="24"
+              height="24"
+            >
+              <g className="nc-icon-wrapper">
+                <path
+                  fill="#67757F"
+                  d="M39 24c0 2.209-1.791 2-4 2H9c-2.209 0-4 .209-4-2l2-12c.125-1.917 1.791-4 4-4h22c2.209 0 3.791 2.208 4 4l2 12z"
+                ></path>
+                <path
+                  fill="#CCD6DD"
+                  d="M32 17a2 2 0 01-2 2H14a2 2 0 01-2-2V9a2 2 0 012-2h16a2 2 0 012 2v8z"
+                ></path>
+                <path
+                  fill="#E1E8ED"
+                  d="M34 21a2 2 0 01-2 2H12a2 2 0 01-2-2v-8a2 2 0 012-2h20a2 2 0 012 2v8z"
+                ></path>
+                <path
+                  fill="#F5F8FA"
+                  d="M36 25a2 2 0 01-2 2H10a2 2 0 01-2-2v-8a2 2 0 012-2h24a2 2 0 012 2v8z"
+                ></path>
+                <path
+                  fill="#9AAAB4"
+                  d="M39 35a4 4 0 01-4 4H9a4 4 0 01-4-4V24a4 4 0 014-4h26a4 4 0 014 4v11z"
+                ></path>
+                <path fill="#67757F" d="M18 16zm0 0z"></path>
+                <path
+                  fill="#FCAB40"
+                  d="M26 5h-5a2 2 0 00-2 2v1h4a2 2 0 012 2h1a2 2 0 002-2V7a2 2 0 00-2-2z"
+                ></path>
+                <path
+                  fill="#5DADEC"
+                  d="M22 9h-5a2 2 0 00-2 2v1h4a2 2 0 012 2h1a2 2 0 002-2v-1a2 2 0 00-2-2z"
+                ></path>
+                <path
+                  fill="#E75A70"
+                  d="M20 16a2 2 0 01-2 2h-5a2 2 0 01-2-2v-1a2 2 0 012-2h5a2 2 0 012 2v1z"
+                ></path>
+                <path
+                  fill="#67757F"
+                  d="M29 32a2 2 0 01-2 2H17a2 2 0 01-2-2v-5a2 2 0 012-2h10a2 2 0 012 2v5zm-11-4z"
+                ></path>
+                <path
+                  fill="#E1E8ED"
+                  d="M27 31a1 1 0 01-1 1h-8a1 1 0 01-1-1v-3a1 1 0 011-1h8a1 1 0 011 1v3z"
+                ></path>
+              </g>
+            </svg>
+            Reading List
+          </span>
+        </Link>
+        <Link to="/listings">
+          <span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 44 44"
@@ -159,56 +205,8 @@ function Banner({ numberOfMembers, fetchNumberOfMembers }) {
             Listings
           </span>
         </Link>
-        <Link to="/">
-          <span title="Listings">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 44 44"
-              width="24"
-              height="24"
-            >
-              <g>
-                <path
-                  fill="#292F33"
-                  d="M10 19h24v2H10zm15 15c0 2.208-.792 4-3 4-2.209 0-3-1.792-3-4s.791-2 3-2c2.208 0 3-.208 3 2z"
-                ></path>
-                <path
-                  fill="#66757F"
-                  d="M22 35c-6.627 0-10 1.343-10 3v2h20v-2c0-1.657-3.373-3-10-3z"
-                ></path>
-                <path
-                  fill="#99AAB5"
-                  d="M22 4a9 9 0 00-9 9v7h18v-7a9 9 0 00-9-9z"
-                ></path>
-                <g fill="#292F33" transform="translate(4 4)">
-                  <circle cx="15.5" cy="2.5" r="1.5"></circle>
-                  <circle cx="20.5" cy="2.5" r="1.5"></circle>
-                  <circle cx="17.5" cy="6.5" r="1.5"></circle>
-                  <circle cx="22.5" cy="6.5" r="1.5"></circle>
-                  <circle cx="12.5" cy="6.5" r="1.5"></circle>
-                  <circle cx="15.5" cy="10.5" r="1.5"></circle>
-                  <circle cx="10.5" cy="10.5" r="1.5"></circle>
-                  <circle cx="20.5" cy="10.5" r="1.5"></circle>
-                  <circle cx="25.5" cy="10.5" r="1.5"></circle>
-                  <circle cx="17.5" cy="14.5" r="1.5"></circle>
-                  <circle cx="22.5" cy="14.5" r="1.5"></circle>
-                  <circle cx="12.5" cy="14.5" r="1.5"></circle>
-                </g>
-                <path
-                  fill="#66757F"
-                  d="M13 19.062V21c0 4.971 4.029 9 9 9s9-4.029 9-9v-1.938H13z"
-                ></path>
-                <path
-                  fill="#66757F"
-                  d="M34 18a1 1 0 00-1 1v2c0 6.074-4.925 11-11 11s-11-4.926-11-11v-2a1 1 0 00-2 0v2c0 7.18 5.82 13 13 13s13-5.82 13-13v-2a1 1 0 00-1-1z"
-                ></path>
-              </g>
-            </svg>
-            Podcasts
-          </span>
-        </Link>
-        <Link to="/">
-          <span title="Listings">
+        <Link to="/videos">
+          <span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 44 44"
@@ -231,8 +229,8 @@ function Banner({ numberOfMembers, fetchNumberOfMembers }) {
             Videos
           </span>
         </Link>
-        <Link to="/">
-          <span title="Listings">
+        <Link to="/tags">
+          <span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 44 44"
@@ -260,8 +258,56 @@ function Banner({ numberOfMembers, fetchNumberOfMembers }) {
 
         {more ? (
           <div className="navMore">
-            <Link to="/">
-              <span title="Listings">
+            <Link to="/pod">
+              <span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 44 44"
+                  width="24"
+                  height="24"
+                >
+                  <g>
+                    <path
+                      fill="#292F33"
+                      d="M10 19h24v2H10zm15 15c0 2.208-.792 4-3 4-2.209 0-3-1.792-3-4s.791-2 3-2c2.208 0 3-.208 3 2z"
+                    ></path>
+                    <path
+                      fill="#66757F"
+                      d="M22 35c-6.627 0-10 1.343-10 3v2h20v-2c0-1.657-3.373-3-10-3z"
+                    ></path>
+                    <path
+                      fill="#99AAB5"
+                      d="M22 4a9 9 0 00-9 9v7h18v-7a9 9 0 00-9-9z"
+                    ></path>
+                    <g fill="#292F33" transform="translate(4 4)">
+                      <circle cx="15.5" cy="2.5" r="1.5"></circle>
+                      <circle cx="20.5" cy="2.5" r="1.5"></circle>
+                      <circle cx="17.5" cy="6.5" r="1.5"></circle>
+                      <circle cx="22.5" cy="6.5" r="1.5"></circle>
+                      <circle cx="12.5" cy="6.5" r="1.5"></circle>
+                      <circle cx="15.5" cy="10.5" r="1.5"></circle>
+                      <circle cx="10.5" cy="10.5" r="1.5"></circle>
+                      <circle cx="20.5" cy="10.5" r="1.5"></circle>
+                      <circle cx="25.5" cy="10.5" r="1.5"></circle>
+                      <circle cx="17.5" cy="14.5" r="1.5"></circle>
+                      <circle cx="22.5" cy="14.5" r="1.5"></circle>
+                      <circle cx="12.5" cy="14.5" r="1.5"></circle>
+                    </g>
+                    <path
+                      fill="#66757F"
+                      d="M13 19.062V21c0 4.971 4.029 9 9 9s9-4.029 9-9v-1.938H13z"
+                    ></path>
+                    <path
+                      fill="#66757F"
+                      d="M34 18a1 1 0 00-1 1v2c0 6.074-4.925 11-11 11s-11-4.926-11-11v-2a1 1 0 00-2 0v2c0 7.18 5.82 13 13 13s13-5.82 13-13v-2a1 1 0 00-1-1z"
+                    ></path>
+                  </g>
+                </svg>
+                Podcasts
+              </span>
+            </Link>
+            <Link to="/code-of-conduct">
+              <span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 44 44"
@@ -282,8 +328,8 @@ function Banner({ numberOfMembers, fetchNumberOfMembers }) {
                 Code of Conduct
               </span>
             </Link>
-            <Link to="/">
-              <span title="Listings">
+            <Link to="/faq">
+              <span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 44 44"
@@ -316,8 +362,8 @@ function Banner({ numberOfMembers, fetchNumberOfMembers }) {
                 FAQ
               </span>
             </Link>
-            <Link to="/">
-              <span title="Listings">
+            <Link to="/dev-shop">
+              <span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 44 44"
@@ -346,8 +392,8 @@ function Banner({ numberOfMembers, fetchNumberOfMembers }) {
                 DEV Shop
               </span>
             </Link>
-            <Link to="/">
-              <span title="Listings">
+            <Link to="/sponsors">
+              <span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 44 44"
@@ -362,8 +408,8 @@ function Banner({ numberOfMembers, fetchNumberOfMembers }) {
                 Sponsors
               </span>
             </Link>
-            <Link to="/">
-              <span title="Listings">
+            <Link to="/privacy">
+              <span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 44 44"
@@ -397,8 +443,86 @@ function Banner({ numberOfMembers, fetchNumberOfMembers }) {
                 Privacy Policy
               </span>
             </Link>
-            <Link to="/">
-              <span title="Listings">
+            <Link to="/about">
+              <span>
+                <svg
+                  viewBox="0 0 44 44"
+                  width="24"
+                  height="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g fill="none" fillRule="evenodd">
+                    <path
+                      fill="#88AEDC"
+                      d="M234.04 175.67l-75.69 58.28h47.18L234.04 212z"
+                    ></path>
+                    <path d="M234.04 140.06l-121.93 93.89h.02l121.91-93.87zM133.25.95L.04 103.51v.02L133.27.95z"></path>
+                    <path
+                      fill="#F58F8E"
+                      fillRule="nonzero"
+                      d="M.04.95v30.16L39.21.95z"
+                    ></path>
+                    <path
+                      fill="#FEE18A"
+                      fillRule="nonzero"
+                      d="M39.21.95L.04 31.11v35.9L85.84.95z"
+                    ></path>
+                    <path
+                      fill="#F3F095"
+                      fillRule="nonzero"
+                      d="M85.84.95L.04 67.01v36.5L133.25.95z"
+                    ></path>
+                    <path
+                      fill="#55C1AE"
+                      fillRule="nonzero"
+                      d="M133.27.95L.04 103.53v35.59L179.49.95z"
+                    ></path>
+                    <path
+                      fill="#F7B3CE"
+                      fillRule="nonzero"
+                      d="M234.04.95h-7.37L.04 175.45v35.93l234-180.18z"
+                    ></path>
+                    <path
+                      fill="#88AEDC"
+                      fillRule="nonzero"
+                      d="M179.49.95L.04 139.12v36.33L226.67.95z"
+                    ></path>
+                    <path
+                      fill="#F58F8E"
+                      fillRule="nonzero"
+                      d="M234.04 31.2L.04 211.38v22.57h18.03l215.97-166.3z"
+                    ></path>
+                    <path
+                      fill="#FEE18A"
+                      fillRule="nonzero"
+                      d="M234.04 67.65L18.07 233.95H64.7l169.34-130.39z"
+                    ></path>
+                    <path
+                      fill="#F3F095"
+                      fillRule="nonzero"
+                      d="M234.04 103.56L64.7 233.95h47.41l121.93-93.89z"
+                    ></path>
+                    <path
+                      fill="#55C1AE"
+                      fillRule="nonzero"
+                      d="M234.04 140.08l-121.91 93.87h46.22l75.69-58.28z"
+                    ></path>
+                    <path
+                      fill="#F7B3CE"
+                      fillRule="nonzero"
+                      d="M234.04 212l-28.51 21.95h28.51z"
+                    ></path>
+                    <path
+                      d="M65.237 77.75c4.514.95 7.774 2.8 11.135 6.3 3.059 3.2 4.965 6.85 5.767 10.95.652 3.45.652 40.55 0 44.05-1.705 9.1-9.479 16.2-19.109 17.45-2.006.25-8.727.5-14.845.5H37V77h12.438c8.828 0 13.342.2 15.8.75zM51.545 117v25.6l5.166-.2c4.464-.15 5.417-.35 7.423-1.5 3.912-2.3 3.962-2.45 3.962-24.2 0-21.2 0-21.2-3.661-23.6-1.806-1.2-2.558-1.35-7.473-1.55l-5.417-.15V117zm79.245-32.75v7.25h-25.58v18h15.549V124H105.21l.1 9.1.15 9.15 12.69.15 12.638.1V157h-14.795c-16.451 0-19.009-.3-21.617-2.6-3.661-3.2-3.46-1.15-3.611-36.3-.1-21.9.05-32.25.401-33.65.702-2.6 3.661-5.8 6.27-6.7 1.554-.55 5.466-.7 17.704-.75h15.648v7.25zm31.647 20.85c3.712 14.25 6.821 25.6 6.922 25.25.15-.35 3.31-12.4 7.071-26.85l6.872-26.25 7.824-.15c5.918-.1 7.874.05 7.874.5s-17.354 66.2-18.357 69.5c-.702 2.3-4.463 7-6.57 8.25-2.658 1.5-6.57 1.75-8.978.5-2.156-1.1-5.015-4.4-6.47-7.5-.902-1.9-15.648-56-19.058-70l-.352-1.35h7.825c7.673 0 7.874 0 8.275 1.1.2.65 3.41 12.8 7.122 27z"
+                      fill="#FFF"
+                    ></path>
+                  </g>
+                </svg>
+                About
+              </span>
+            </Link>
+            <Link to="/terms">
+              <span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 44 44"
@@ -454,8 +578,8 @@ function Banner({ numberOfMembers, fetchNumberOfMembers }) {
                 Terms of use
               </span>
             </Link>
-            <Link to="/">
-              <span title="Listings">
+            <Link to="/contact">
+              <span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 44 44"
@@ -482,14 +606,14 @@ function Banner({ numberOfMembers, fetchNumberOfMembers }) {
             </Link>
           </div>
         ) : (
-          <Link to="/">
+          <Link to="#">
             <span onClick={() => setMore(true)} className="navMore__id">
               More
             </span>
           </Link>
         )}
       </nav>
-      <div className="social">
+      {component==="NavBar" && <div className="social">
         <Divider />
         <div className="social__inner">
           <a href="https://www.facebook.com" target="_blank" rel="noreferrer">
@@ -508,7 +632,7 @@ function Banner({ numberOfMembers, fetchNumberOfMembers }) {
             <LinkedInIcon />
           </a>
         </div>
-      </div>
+      </div>}
     </div>
   );
 }

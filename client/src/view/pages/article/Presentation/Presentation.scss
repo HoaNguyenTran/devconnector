@@ -1,0 +1,12 @@
+.presentation {
+    display: flex;
+    justify-content: center;
+    gap: 1rem; 
+    
+    &__left {
+        max-width: 280px;
+    }
+    &__right {
+        max-width: 325px;
+    }
+}

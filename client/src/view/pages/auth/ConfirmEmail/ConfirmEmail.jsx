@@ -1,50 +1,55 @@
-import React, { useEffect, useState } from "react";
+
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import { useParams } from "react-router-dom";
-import { fetchToken } from "../../../../redux/actions/user.action";
-import NavBar from "../../../components/NavBar/NavBar";
+import { useParams, useHistory } from "react-router-dom";
+import { toast, ToastContainer, Zoom } from "react-toastify";
+import { fetchConfirmEmail } from "../../../../redux/actions/user.action";
 
-function ConfirmEmail({ verifyToken, fetchToken }) {
-  const [show, setShow] = useState(false);
-  const [temp, setTemp] = useState(0);
-
-  const { token } = useParams();
+function ConfirmEmail({ confirmEmail, fetchConfirmEmail }) {
+  let { id, token } = useParams();
+  let history = useHistory();
 
   useEffect(() => {
-    fetchToken();
-
-    const timer = setTimeout(() => {
-      if (verifyToken.data) {
-        setTemp(verifyToken.data.verify_token);
-        if (temp === token) setShow(true);
-      } else {
-          setTemp(1);
-          setShow(false);
-    }
-    //   console.log(temp);
-    }, 500);
-    return () => {
-      clearTimeout(timer);
-    };
+    fetchConfirmEmail(id, token);
+ 
     // eslint-disable-next-line
-  }, [temp]);
+  }, []);
+ 
+  useEffect(() => {
+    notify();
+    
+  })
+
+  const notify = () => {
+    if (confirmEmail.error) {
+      toast.error(confirmEmail.error.msg);
+      toast.clearWaitingQueue();
+
+      setTimeout(() => history.push("/auth/signup"), 3000)
+    }
+
+    if(confirmEmail.data) {
+      window.location.replace("http://localhost:3000")
+    }
+    
+  };
 
   return (
     <div>
-      {show ? <NavBar /> : <div>404</div>}
+      <ToastContainer autoClose={3000} limit={1} transition={Zoom} />
     </div>
   );
 }
 
 const mapStateToProps = (state) => {
   return {
-    verifyToken: state.user.token,
+    confirmEmail: state.user.confirm,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchToken: () => dispatch(fetchToken()),
+    fetchConfirmEmail: (id, token) => dispatch(fetchConfirmEmail(id, token)),
   };
 };
 

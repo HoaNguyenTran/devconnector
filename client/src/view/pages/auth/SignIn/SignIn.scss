@@ -1,23 +1,18 @@
-:root {
-  --color: #3b49df;
-  --backColor: #f0f0f0;
-  background-color: var(--backColor);
-}
-
 .container-signin {
-  padding-top: 80px;
   position: relative;
 }
 
 .left {
-  text-align: center;
+  display: flex;
+  justify-content: center;
   img {
-    width: 60%;
+    width: 70%;
     height: auto;
   }
 }
 
-.right {
+.right__wrap {
+  width: 100%;
 }
 
 .signin {
@@ -43,63 +38,16 @@
     justify-content: center;
     align-items: center;
 
-    &--input {
-      width: 85%;
-      height: 3rem;
-
-      background-color: #fff;
-      border: 2px solid var(--color);
-      border-radius: 25px;
-
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
-
-      input {
-        border: none;
-        outline: none;
-
-        width: 70%;
-        height: 80%;
-        font-size: 18px;
-
-        &::placeholder {
-          font-size: 14px;
-        }
-      }
-    }
-
-    &--email {
-    }
-
-    &--password {
-      position: relative;
-    }
-
-    &--icon {
-      padding: 0 1rem 0.2rem;
-      color: var(--color);
-    }
-
-    &--error {
-      display: block;
-      height: 2rem;
-      margin-top: .2rem;
-
-      font-size: 14px;
-      color: red;
-    }
-
-    &--option {
-      width: 90%;
-      display: flex;
-      justify-content: space-between;
-    }
-
     &--forgot {
-      margin-top: 0.2rem;
-      color: #000;
-      text-decoration: none;
+      width: 80%;
+      margin: 0.4rem auto;
+      position: relative;
+
+      a {
+        position: absolute;
+        right: 0;
+        color: #333;
+      }
     }
 
     &--submit {
@@ -127,11 +75,15 @@
         background-size: 100%;
         transition: all 0s;
       }
+
+      &:focus {
+        outline: none;
+      }
     }
   }
 }
 
-.social-signin {
+.social {
   width: 100%;
   margin-top: 1rem;
 
@@ -154,24 +106,26 @@
     justify-content: space-evenly;
     margin-top: 2rem;
 
-    a {
+    &--facebook,
+    &--google {
       padding: 1rem;
-      width: 7rem;
+      width: 9rem;
       border-radius: 0.5rem;
       color: #fff;
       text-align: center;
+      cursor: pointer;
 
       span {
         padding-left: 0.8rem;
       }
     }
 
-    a:nth-child(1) {
+    &--facebook {
       background-color: #4267b2;
       border: 1px solid #4267b2;
     }
 
-    a:nth-child(2) {
+    &--google {
       background-color: #db4437;
       border: 1px solid #db4437;
     }
@@ -191,86 +145,13 @@
 .eye {
   position: absolute;
   right: 0;
-  bottom: 0.4rem;
-}
-
-.checkbox {
-  --background: #fff;
-  --border: #d1d6ee;
-  --border-hover: #bbc1e1;
-  --border-active: #3b49df;
-  --tick: #fff;
-  
-  position: relative;
-  display: flex;
-  input,
-  svg {
-    width: 21px;
-    height: 21px;
-    display: block;
-  }
-  input {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    outline: none;
-    background: var(--background);
-    border: none;
-    margin: 0;
-    padding: 0;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: box-shadow 0.3s;
-    box-shadow: inset 0 0 0 var(--s, 1px) var(--b, var(--border));
-    &:hover {
-      --s: 2px;
-      --b: var(--border-hover);
-    }
-    &:checked {
-      --b: var(--border-active);
-    }
-  }
-  svg {
-    pointer-events: none;
-    fill: none;
-    stroke-width: 2px;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    stroke: var(--stroke, var(--border-active));
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 21px;
-    height: 21px;
-    transform: scale(var(--scale, 1)) translateZ(0);
-  }
-  &.path {
-    input {
-      &:checked {
-        --s: 2px;
-        transition-delay: 0.4s;
-        & + svg {
-          --a: 16.1 86.12;
-          --o: 102.22;
-        }
-      }
-    }
-    svg {
-      stroke-dasharray: var(--a, 86.12);
-      stroke-dashoffset: var(--o, 86.12);
-      transition: stroke-dasharray 0.6s, stroke-dashoffset 0.6s;
-    }
-  }
-  span {
-    color: #666;
-    font-size: 1rem;
-    margin: 0.2rem 0 0 0.6rem;
-  }
+  bottom: 0.6rem;
 }
 
 @media screen and (min-width: 450px) {
   .container-signin {
-      width: 80%;
-      margin: 0 auto;
+    width: 80%;
+    margin: 0 auto;
   }
 }
 
@@ -287,19 +168,16 @@
   }
 }
 
-@media screen and (min-width: 1025px) {
+@media screen and (min-width: 1024px) {
   .container-signin {
     display: flex;
     width: 80%;
     gap: 1rem;
-    margin-top: 5rem;
+    margin-top: 8rem;
   }
 
   .left {
     width: 50vw;
-    display: flex;
-    align-items: center;
-
     img {
       width: 100%;
     }
@@ -326,9 +204,7 @@
       }
 
       &__form {
-        &--input {
-          margin: 0.8rem 0 0.4rem;
-        }
+        padding-top: 2.2rem;
 
         &--submit {
           margin-top: 3rem;

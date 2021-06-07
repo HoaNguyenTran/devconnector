@@ -51,9 +51,13 @@ const UserSchema = new Schema({
     },
   },
 
-  dateJoin: { type: Date, default: Date.now },
+  avatar: {
+    type: String,
+    require: true,
+  },
+
 });
 
-const User = mongoose.model("users", UserSchema);
+const User = mongoose.model("Users", UserSchema);
 
 module.exports = User;

@@ -2,15 +2,29 @@ import validator from "validator";
 import isEmpty from "../helper/isEmtpy";
 import regex from "../helper/regex";
 
-export function valBlurSignup(type, data) {
+export function validateBlur(type, data) {
   let errors = {};
   data = isEmpty(data) ? "" : data;
 
-  if (type === "name") {
+  if (data.length > 200) {
+    errors[type] = "Maximum characters: 200";
+    return errors;
+  } else errors[type] = "";
+
+  if (
+    type === "name" ||
+    type === "email" ||
+    type === "password" ||
+    type === "repassword"
+  ) {
     if (validator.isEmpty(data)) {
-      errors.name = "Name field is required";
+      const str = `${type} field is required`;
+      errors[type] = str.charAt(0).toUpperCase() + str.slice(1);
       return errors;
-    }
+    } else errors[type] = "";
+  }
+
+  if (type === "name") {
     if (!regex.name(data)) {
       errors.name = "Name field contain only letters";
       return errors;
@@ -20,12 +34,8 @@ export function valBlurSignup(type, data) {
       return errors;
     } else errors.name = "";
   }
-  if (type === "email") {
-    if (validator.isEmpty(data)) {
-      errors.email = "Email field is required";
-      return errors;
-    }
 
+  if (type === "email") {
     if (!validator.isEmail(data)) {
       errors.email = "Email is invalid";
       return errors;
@@ -33,10 +43,6 @@ export function valBlurSignup(type, data) {
   }
 
   if (type === "password") {
-    if (validator.isEmpty(data)) {
-      errors.password = "Password field required";
-      return errors;
-    }
     if (!regex.password(data)) {
       errors.password =
         "Password must contain at least 8 characters of which contain at least 1 number, 1 lowercase, 1 uppercase";
@@ -44,11 +50,35 @@ export function valBlurSignup(type, data) {
     } else errors.password = "";
   }
 
-  if (type === "repassword") {
+  if (type === "username") {
     if (validator.isEmpty(data)) {
-      errors.repassword = "Repeat password field required";
+      errors.username = "Username field is required";
       return errors;
-    } else errors.repassword = "";
+    } else delete errors.username;
+  }
+
+  if (type === "color" || type === "bgcolor") {
+    if (!/^#([0-9A-F]{3}){1,2}$/i.test(data)) {
+      const str = `${type} field is invalid`;
+      errors[type] = str.charAt(0).toUpperCase() + str.slice(1);
+      return errors;
+    } else errors[type] = "";
+  }
+
+  if (
+    type === "websiteUrl" ||
+    type === "employerUrl" ||
+    type === "facebook" ||
+    type === "twitter" ||
+    type === "github" ||
+    type === "instagram" ||
+    type === "linkedin"
+  ) {
+    if (!validator.isURL(data) && !validator.isEmpty(data)) {
+      const str = `${type} URL field is invalid`;
+      errors[type] = str.charAt(0).toUpperCase() + str.slice(1);
+      return errors;
+    } else errors[type] = "";
   }
 
   return errors;

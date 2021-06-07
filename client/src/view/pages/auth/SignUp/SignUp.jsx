@@ -1,99 +1,59 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import signupImg from "../../../../assets/images/signupImg.svg";
+import { ToastContainer, toast, Zoom } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import PersonOutlineOutlinedIcon from "@material-ui/icons/PersonOutlineOutlined";
 import EmailOutlinedIcon from "@material-ui/icons/EmailOutlined";
 import LockOpenOutlinedIcon from "@material-ui/icons/LockOpenOutlined";
-import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
-import VisibilityOffOutlinedIcon from "@material-ui/icons/VisibilityOffOutlined";
 
 import "./SignUp.scss";
-import NavBar from "../../../components/NavBar/NavBar";
-import { formatNumber } from "../../../../utils/helper";
+import signupImg from "../../../../assets/images/auth/signupImg.svg";
 import {
   fetchNumberOfMembers,
   fetchSignUp,
 } from "../../../../redux/actions/user.action";
-import { valBlurSignup } from "../../../../utils/validation";
+import InputAuth from "../../../common/InputAuth/InputAuth";
+import useInputAuth from "../../../../hook/useInputAuth";
+import { formatNumber } from "../../../../utils/helper/regex";
 
 function SignUp({
   numberOfMembers,
   fetchNumberOfMembers,
   signup,
-  fetchSignUp
+  fetchSignUp,
 }) {
-
-  const initialRequired = {
+  const initial = {
     name: "",
     email: "",
     password: "",
     repassword: "",
   };
-  const initialError = {
-    name: "Name field is required",
-    email: "Email field is required",
-    password: "Password is field required",
-    repassword: "Repeat password is field required",
-  };
 
-  const [inputs, setInputs] = useState({});
-  const [vision, setVision] = useState({ password: "on", repassword: "on" });
-  const [errors, setErrors] = useState({});
+  const input = useInputAuth({ initial, fetchData: (data) => fetchSignUp(data) });
+
+  useEffect(() => {
+    
+    notify();
+    // eslint-disable-next-line
+  }, [signup]);
 
   useEffect(() => {
     fetchNumberOfMembers();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+     // eslint-disable-next-line
+  }, [])
 
-  const onClickVision = (status) => {
-    setVision({ ...vision, ...status });
-  };
-
-  const onChangeInput = (e) => {
-    setInputs({ ...inputs, [e.target.name]: e.target.value });
-  };
-
-  const onBlurValidate = (e) => {
-    const error = valBlurSignup(e.target.name, inputs[e.target.name]);
-    setErrors({ ...errors, ...error });
-  };
-
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    if(JSON.stringify(inputs) === JSON.stringify({})) {
-      setErrors(initialError);
-      return;
+  const notify = () => {
+    if (signup.error) {
+      toast.error(signup.error.msg);
+      toast.clearWaitingQueue();
     }
-
-    if (inputs.password !== inputs.repassword) {
-      setErrors({
-        ...errors,
-        repassword: "Password and repeat password must match",
-      });
-      return;
-    } else {
-      setErrors({
-        ...errors,
-        repassword: "",
-      });
-    }
-
-    if (
-      JSON.stringify(errors) === JSON.stringify(initialRequired) &&
-      Object.keys(inputs).length === 4
-    ) {
-      fetchSignUp(inputs);
-      return;
-    }
-
-    return;
   };
 
   return (
     <div className="container-signup">
-      <NavBar />
+      <ToastContainer autoClose={3000} limit={1} transition={Zoom} />
       <div className="right">
         <img src={signupImg} alt="" />
       </div>
@@ -102,99 +62,52 @@ function SignUp({
           <div className="signup">
             <div className="signup__title">
               <h2 className="signup__title--main">Let's Get Started!</h2>
-              {/* {!signup.loading && signup.error && <div>sada</div>} */}
               <p className="signup__title--sub">
                 DevConnector is a community of{" "}
                 {numberOfMembers.loading
-                  ? ""
+                  ? null
                   : formatNumber(numberOfMembers.data)}
                 ,000 amazing developers
               </p>
             </div>
             <form
-              onSubmit={onSubmit}
+              className="signup__form"
+              onSubmit={input.onSubmit}
               onKeyPress={(e) => {
                 e.key === "Enter" && e.preventDefault();
               }}
-              className="signup__form"
             >
-              <div className="signup__form--input signup__form--name">
-                <PersonOutlineOutlinedIcon className="signup__form--icon" />
-                <input
-                  name="name"
-                  placeholder="Full Name"
-                  type="text"
-                  value={inputs.name || ""}
-                  onChange={onChangeInput}
-                  onBlur={onBlurValidate}
-                />
-              </div>
-              <div className="signup__form--error">{errors.name}</div>
+              <InputAuth
+                name="name"
+                placeholder="Full Name"
+                type="text"
+                component={PersonOutlineOutlinedIcon}
+                {...input}
+              />
 
-              <div className="signup__form--input signup__form--email">
-                <EmailOutlinedIcon className="signup__form--icon" />
-                <input
-                  name="email"
-                  placeholder="Email"
-                  type="text"
-                  value={inputs.email || ""}
-                  onChange={onChangeInput}
-                  onBlur={onBlurValidate}
-                />
-              </div>
-              <div className="signup__form--error">{errors.email}</div>
+              <InputAuth
+                name="email"
+                placeholder="Email"
+                type="text"
+                component={EmailOutlinedIcon}
+                {...input}
+              />
 
-              <div className="signup__form--input signup__form--password">
-                <LockOpenOutlinedIcon className="signup__form--icon" />
-                <input
-                  name="password"
-                  placeholder="Password"
-                  type={vision.password === "off" ? "text" : "password"}
-                  value={inputs.password || ""}
-                  onChange={onChangeInput}
-                  onBlur={onBlurValidate}
-                />
-                <div className="eye">
-                  {vision.password === "on" ? (
-                    <VisibilityOffOutlinedIcon
-                      className="signin__form--icon"
-                      onClick={() => onClickVision({ password: "off" })}
-                    />
-                  ) : (
-                    <VisibilityOutlinedIcon
-                      className="signin__form--icon"
-                      onClick={() => onClickVision({ password: "on" })}
-                    />
-                  )}
-                </div>
-              </div>
-              <div className="signup__form--error">{errors.password}</div>
+              <InputAuth
+                name="password"
+                placeholder="Password"
+                type="password"
+                component={LockOpenOutlinedIcon}
+                {...input}
+              />
 
-              <div className="signup__form--input signup__form--repassword">
-                <LockOpenOutlinedIcon className="signup__form--icon" />
-                <input
-                  name="repassword"
-                  placeholder="Confirm Password"
-                  type={vision.repassword === "off" ? "text" : "password"}
-                  value={inputs.repassword || ""}
-                  onChange={onChangeInput}
-                  onBlur={onBlurValidate}
-                />
-                <div className="eye">
-                  {vision.repassword === "on" ? (
-                    <VisibilityOffOutlinedIcon
-                      className="signin__form--icon"
-                      onClick={() => onClickVision({ repassword: "off" })}
-                    />
-                  ) : (
-                    <VisibilityOutlinedIcon
-                      className="signin__form--icon"
-                      onClick={() => onClickVision({ repassword: "on" })}
-                    />
-                  )}
-                </div>
-              </div>
-              <div className="signup__form--error">{errors.repassword}</div>
+              <InputAuth
+                name="repassword"
+                placeholder="Confirm Password"
+                type="password"
+                component={LockOpenOutlinedIcon}
+                {...input}
+              />
 
               <input
                 value="Sign up"
@@ -203,7 +116,7 @@ function SignUp({
               />
             </form>
           </div>
-          <div className="social-signup__another">
+          <div className="signup__another">
             <p>
               Already have an account?{" "}
               <span>

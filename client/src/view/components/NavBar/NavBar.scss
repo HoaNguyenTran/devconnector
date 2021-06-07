@@ -1,43 +1,49 @@
-a {
-  color: #3b49df;
-  text-decoration: none;
-  cursor: pointer;
-}
-
 p {
   color: #4d5760;
 }
 
-button {
-  padding: 14px 20px;
-  background-color: #3b49df;
-  color: #fff;
-  font-size: 1rem;
-  border-radius: 8px;
-  outline: none;
-  border: none;
-  cursor: pointer;
-  background-position: center;
-  transition: all 0.1s;
+h4 {
+  color: #202428;
+  font-weight: 500;
 
   &:hover {
-    background: #3b49df radial-gradient(circle, transparent 1%, #505cdd 1%)
-      center/15000%;
-  }
-
-  &:active {
-    border: none;
-    background-size: 100%;
-    transition: all 0s;
+    color: #323beb;
   }
 }
 
+a {
+  cursor: pointer;
+}
 .header {
+  button {
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 1rem;
+
+    outline: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.1s;
+  }
+
   position: relative;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
 
   &__hamburger {
     color: #000;
     background-color: #fff;
+    padding: 14px 8px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+
+    &:hover {
+      background-color: transparent;
+    }
 
     &--title {
       padding: 12px 0 12px 16px;
@@ -47,22 +53,20 @@ button {
 
     &--close {
       position: absolute;
-      right: 14px;
-      top: 14px;
+      right: 16px;
+      top: 20px;
     }
   }
 
   &__logo {
-    color: black;
+    overflow: hidden;
+    color: #000;
     position: relative;
-    margin-right: 64px;
+    border-radius: 4px;
     cursor: pointer;
-  }
-
-  &__searchBar {
-    display: flex;
-    flex-grow: 1;
-    justify-content: flex-start;
+    width: 50px;
+    height: 40px;
+    display: block;
   }
 
   &__searchIcon {
@@ -74,23 +78,69 @@ button {
     margin: 4px 16px 0 0;
   }
 
+  &__searchBar {
+    display: none;
+  }
+
   &__btn {
     margin-right: 1rem;
+    display: flex;
 
-    // a:first-child {
-
-    //   button {
-    //     color: #6e6d7a;
-    //     background-color: transparent;
-    //   }
-    // }
     button {
-      width: 6rem;
+      width: 6.5rem;
+    }
+
+    &--signup {
+      color: #fff;
+      background-color: #3b49df;
     }
 
     &--signin {
-      color: #6e6d7a;
-        background-color: transparent;
+      display: none;
+    }
+  }
+
+  &__menu {
+    display: flex;
+    align-items: center;
+
+    &--new {
+      display: none;
+      background-color: #323beb;
+    }
+
+    &--circle {
+      margin-right: 0.3rem;
+    }
+
+    &--avatar {
+      overflow: hidden;
+      border: 2px solid #212121;
+      border-radius: 25%;
+      margin-right: 8px;
+      width: 32px;
+      height: 32px;
+
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    &--name {
+      h3 {
+        color: #202428;
+      }
+
+      p {
+        font-size: 14px;
+      }
+
+      &:hover {
+        h3 {
+          color: #323beb;
+        }
+      }
     }
   }
 }
@@ -98,4 +148,85 @@ button {
 .toolBar {
   z-index: 100;
   background: #fff;
+}
+
+@media screen and (min-width: 450px) {
+  .header {
+    width: 90%;
+    margin: 0 auto;
+
+    &__hamburger {
+      margin-right: 0.5rem;
+    }
+
+    &__btn {
+      margin-left: 1rem;
+    }
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .header {
+    &__hamburger {
+      display: none;
+    }
+
+    &__searchIcon {
+      display: none;
+    }
+
+    &__searchBar {
+      margin-left: 36px;
+      display: flex;
+      flex-grow: 1;
+      justify-content: flex-start;
+
+      &--input {
+        border: 1px solid #aaa;
+        border-radius: 4px;
+        padding: 4px;
+        width: 260px;
+      }
+    }
+
+    &__btn {
+      &--signin {
+        display: block;
+        margin-right: 1rem;
+
+        &:hover {
+          background: #eee;
+        }
+      }
+    }
+
+    &__menu {
+      &--new {
+        display: block;
+        margin: 0 2rem;
+
+        a {
+          color: #fff;
+          font-weight: 600;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .header {
+    width: 80%;
+
+    &__searchBar {
+      margin-left: 48px;
+      width: 380px;
+    }
+
+    &__menu {
+      &--circle {
+        margin-right: 1rem;
+      }
+    }
+  }
 }

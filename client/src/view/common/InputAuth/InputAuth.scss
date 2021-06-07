@@ -1,0 +1,91 @@
+.input-auth {
+  &__label {
+    width: 80%;
+    text-align: left;
+    font-weight: 500;
+  }
+
+  &__input {
+    max-width: 400px;
+    min-width: 320px;
+    position: relative;
+    width: 85%;
+    height: 3rem; 
+
+    background-color: #fff;
+    border-radius: 25px;
+
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    input {
+      border: none;
+      outline: none;
+
+      width: 70%;
+      height: 80%;
+      font-size: 18px;
+
+      &::placeholder {
+        font-size: 14px;
+      }
+    }
+
+    &--icon {
+      padding: 0 1rem;
+      display: flex;
+      justify-content: center;
+    }
+  }
+
+  &__error {
+    display: block;
+    color: #ff3333;
+    font-size: 14px;
+
+    height: 2em;
+    margin-top: 0.2rem;
+  }
+}
+
+@media screen and (min-width: 450px) {
+  .input-auth {
+    &__input {
+      width: 80%;
+    }
+  }
+}
+
+@media screen and (min-width: 760px) {
+  .input-auth {
+    &__input {
+      width: 75%;
+    }
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .input-auth {
+    &__input {
+      margin: 0.8rem 0 0.4rem;
+    }
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .input-auth {
+    &__input {
+      width: 70%;
+    }
+  }
+}
+
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active
+{
+ -webkit-box-shadow: 0 0 0 30px white inset !important;
+}

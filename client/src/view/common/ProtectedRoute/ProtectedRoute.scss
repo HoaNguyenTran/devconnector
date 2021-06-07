@@ -1,0 +1,41 @@
+.protected {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+
+  &__back {
+    border: 2px solid var(--color);
+    border-radius: 0.5rem;
+
+    button {
+      border: none;
+      background-color: transparent;
+      color: var(--color);
+      font-size: 22px;
+      font-weight: 700;
+      min-width: 10rem;
+      height: 4rem;
+      position: relative;
+
+      &::before {
+        content: "\f060";
+        font-family: FontAwesome;
+        color: var(--color);
+        display: none;
+      }
+
+      &:hover {
+        &::before {
+          display: inline-block;
+        }
+        background-color: transparent;
+      }
+
+      &:focus {
+        outline: none;
+        border-color: #3b49df;
+      }
+    }
+  }
+}

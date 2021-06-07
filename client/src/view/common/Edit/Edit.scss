@@ -1,0 +1,86 @@
+.edit {
+  position: relative;
+
+  span {
+    background-color: transparent !important;
+  }
+
+  p {
+    min-height: 1rem;
+  }
+
+  a {
+    span {
+      text-decoration: underline;
+      color: #3b49df;
+    }
+  }
+
+  &__card {
+    padding: 0.5rem;
+  }
+
+  &__count {
+    display: flex;
+    justify-content: flex-end;
+
+    &--line {
+      margin-right: 1rem;
+    }
+  }
+  .MuiCard-root {
+    height: 100%;
+  }
+  
+  
+  .rdw-editor-wrapper {
+    flex-direction: column;
+    display: flex;
+    height: 100%;
+  }
+  
+  .rdw-editor-toolbar {
+    a {
+      span {
+        color: #000;
+        text-decoration: none;
+      }
+    }
+    flex: 0 1 auto;
+  }
+  
+  .rdw-editor-main {
+    flex: 1 1 auto;
+    height: auto;
+  }
+  
+  .rdw-link-decorator-icon {
+    display: none;
+  }
+  
+  div.DraftEditor-editorContainer,
+  div.public-DraftEditor-content {
+    height: 100%;
+  }
+  
+  .rdw-option-active {
+    background-color: #ccc;
+    box-shadow: none;
+  }
+  .rdw-option-wrapper:hover {
+    box-shadow: none;
+  }
+  .rdw-option-wrapper:active {
+    box-shadow: none;
+  }
+  .public-DraftStyleDefault-block {
+    margin: 0;
+  }
+  .rdw-editor-main {
+    overflow: hidden;
+  }
+  .editor-class {
+    font-size: 18px;
+  }
+}
+

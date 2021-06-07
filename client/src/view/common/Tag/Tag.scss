@@ -1,0 +1,48 @@
+.tag {
+  position: relative;
+
+  &__content {
+    padding: 1rem;
+
+    a {
+      color: #202428;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    &--title,
+    &--description,
+    &--count {
+      margin-bottom: 12px;
+    }
+
+    &--description {
+      color: #08090a;
+    }
+
+    &--btn {
+      padding: 0.5rem 1rem;
+      border-radius: 0.25rem;
+      border: 1px solid #d2d6db;
+      font-weight: 600;
+      &:focus {
+        outline: none;
+      }
+    }
+
+    &--btn-follow {
+      background-color: #d2d6db;
+    }
+
+    &--btn-following {
+      background-color: #ffffff;
+    }
+
+    img {
+        position: absolute;
+        right: 1rem;
+        bottom: 1rem;
+        transform: rotate(5deg);
+    }
+  }
+}

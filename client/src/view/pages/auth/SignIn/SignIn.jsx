@@ -1,20 +1,50 @@
-import React, { useState } from "react";
-import signinImg from "../../../../assets/images/signinImg.svg";
+import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+
+import { toast, ToastContainer, Zoom } from "react-toastify";
 import EmailOutlinedIcon from "@material-ui/icons/EmailOutlined";
 import LockOpenOutlinedIcon from "@material-ui/icons/LockOpenOutlined";
-import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
-import VisibilityOffOutlinedIcon from "@material-ui/icons/VisibilityOffOutlined";
 
+import { fetchSignIn } from "../../../../redux/actions/user.action";
+import InputAuth from "../../../common/InputAuth/InputAuth";
+import useInputAuth from "../../../../hook/useInputAuth";
+
+import signinImg from "../../../../assets/images/auth/signinImg.svg";
 import "./SignIn.scss";
-import { Link } from "react-router-dom";
-import NavBar from "../../../components/NavBar/NavBar";
 
-export default function SignIn() {
-  const [visionPass, setVisionPass] = useState("password");
+function SignIn({ signin, fetchSignIn }) {
+
+  const initial = {
+    email: "",
+    password: "",
+  };
+
+  const input = useInputAuth({ initial, fetchData: (data) => fetchSignIn(data) });
+
+  useEffect(() => {
+    notify();
+    // eslint-disable-next-line
+  }, [signin]);
+
+  const notify = () => {
+    if (signin.error) {
+      toast.error(signin.error.msg);
+      toast.clearWaitingQueue();
+    }
+  };
+
+  const googleLogin = () => {
+    window.location.replace("http://localhost:5000/api/users/oauth/google")
+  }
+
+  const facebookLogin = () => {
+    window.location.replace("http://localhost:5000/api/users/oauth/facebook")
+  }
 
   return (
     <div className="container-signin">
-      <NavBar/>
+      <ToastContainer autoClose={3000} limit={1} transition={Zoom} />
       <div className="left">
         <img src={signinImg} alt="" />
       </div>
@@ -27,44 +57,31 @@ export default function SignIn() {
                 Log in to your existant account of DevConnector
               </p>
             </div>
-            <form action="" className="signin__form">
-              <div className="signin__form--input signin__form--email">
-                <EmailOutlinedIcon className="signin__form--icon" />
-                <input type="text" placeholder="Email" />
-              </div>
-              <div className="signin__form--error"></div>
+            <form
+              className="signin__form"
+              onSubmit={input.onSubmit}
+              onKeyPress={(e) => {
+                e.key === "Enter" && e.preventDefault();
+              }}
+            >
+              <InputAuth
+                name="email"
+                placeholder="Email"
+                type="text"
+                component={EmailOutlinedIcon}
+                {...input}
+              />
 
-              <div className="signin__form--input signin__form--password">
-                <LockOpenOutlinedIcon className="signin__form--icon" />
-                <input type={visionPass} placeholder="Password" />
-                {visionPass === "password" ? (
-                  <div className="eye">
-                    <VisibilityOffOutlinedIcon
-                      className="signin__form--icon"
-                      onClick={() => setVisionPass("text")}
-                    />
-                  </div>
-                ) : (
-                  <div className="eye">
-                    <VisibilityOutlinedIcon
-                      className="signin__form--icon"
-                      onClick={() => setVisionPass("password")}
-                    />
-                  </div>
-                )}
-              </div>
-              <div className="signin__form--error">Invalid email</div>
-              <div className="signin__form--option">
-                <label className="checkbox path">
-                  <input type="checkbox" />
-                  <svg viewBox="0 0 21 21">
-                    <path d="M5,10.75 L8.5,14.25 L19.4,2.3 C18.8333333,1.43333333 18.0333333,1 17,1 L4,1 C2.35,1 1,2.35 1,4 L1,17 C1,18.65 2.35,20 4,20 L17,20 C18.65,20 20,18.65 20,17 L20,7.99769186"></path>
-                  </svg>
-                  <span>Remember me?</span>
-                </label>
-                <Link className="signin__form--forgot" to="/">
-                  Forgot Password?
-                </Link>
+              <InputAuth
+                name="password"
+                placeholder="Password"
+                type="password"
+                component={LockOpenOutlinedIcon}
+                {...input}
+              />
+
+              <div className="signin__form--forgot">
+                <Link to="/auth/forgot-password">Forgot Password?</Link>
               </div>
               <input
                 type="submit"
@@ -73,21 +90,21 @@ export default function SignIn() {
               />
             </form>
           </div>
-          <div className="social-signin">
-            <p className="social-signin__title">
+          <div className="social">
+            <p className="social__title">
               <span>Or connect using</span>
             </p>
-            <div className="social-signin__network">
-              <Link to="/">
+            <div className="social__network">
+              <div className="social__network--facebook" onClick={facebookLogin}>
                 <i className="fab fa-facebook-f"></i>
                 <span>Facebook</span>
-              </Link>
-              <Link to="/">
+              </div>
+              <div className="social__network--google" onClick={googleLogin}>
                 <i className="fab fa-google"></i>
                 <span>Google</span>
-              </Link>
+              </div>
             </div>
-            <div className="social-signin__another">
+            <div className="social__another">
               <p>
                 Don't have an account?{" "}
                 <span>
@@ -101,3 +118,17 @@ export default function SignIn() {
     </div>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    signin: state.user.signin,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchSignIn: (data) => dispatch(fetchSignIn(data)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn);

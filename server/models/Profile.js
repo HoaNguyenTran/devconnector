@@ -1,79 +1,93 @@
 const mongoose = require("mongoose");
-const {Schema} = mongoose;
+const { Schema } = mongoose;
 
 // Create schema
 const ProfileSchema = new Schema({
-    username: {
-        type: Schema.Types.ObjectId, 
-        ref: "users"
-    },
+  userId: {
+    type: Schema.Types.ObjectId,
+    ref: "Users",
+  },
+  name: {
+    type: Schema.Types.String,
+  },
+  email: {
+    type: Schema.Types.String,
+  },
+  username: {
+    type: String,
+  },
+  avatar: {
+    type: String,
+  },
 
-    basic: {
-        img: {
-            type: String,
-        },
-        displayEmail: {
-            type: Boolean,
-            default: false
-        },
-        location: {
-            type: String,
-        },
-        bio: {
-            type: String
-        },
-        url: {
-            type: String
-        },
-        brand: {
-            type: String
-        }
-    },
+  displayEmail: {
+    type: Boolean,
+  },
+  websiteUrl: {
+    type: String,
+  },
+  location: {
+    type: String,
+  },
+  bio: {
+    type: String,
+  },
+  color: {
+    type: String,
+  },
 
-    coding: {
-        skills: {
-            type: String
-        },
-        learn: {
-            type: String
-        },
-        project: {
-            type: String
-        },
-        available: {
-            type: String
-        },
-    },
+  available: {
+    type: String,
+  },
+  learning: {
+    type: String,
+  },
+  skills: {
+    type: String,
+  },
+  hacking: {
+    type: String,
+  },
 
-    link: {
-        education: {
-            type: String
-        },
-        company: {
-            type: String
-        },
-        position: {
-            type: String
-        },
-        companyURL: {
-            type: String
-        },
-        lookingForWork: {
-            type: Boolean,
-            default: false
-        },
-        displayLookingForWork: {
-            type: Boolean,
-            default: false
-        },
-        recruiterContact: {
-            type: Boolean,
-            default: false
-        }
-    }
-})
+  recruiterContact: {
+    type: Boolean,
+  },
+  employerTitle: {
+    type: String,
+  },
+  employerName: {
+    type: String,
+  },
+  education: {
+    type: String,
+  },
+  employerUrl: {
+    type: String,
+  },
 
-const Profile = mongoose.model("profile", ProfileSchema);
+  facebook: {
+    type: String,
+  },
+  twitter: {
+    type: String,
+  },
+  github: {
+    type: String,
+  },
+  instagram: {
+    type: String,
+  },
+  linkedin: {
+    type: String,
+  },
 
+  repo: [],
+
+  followTag: [],
+
+  dateJoin: { type: Date, default: Date.now },
+});
+
+const Profile = mongoose.model("Profile", ProfileSchema);
 
 module.exports = Profile;

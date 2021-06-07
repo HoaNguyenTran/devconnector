@@ -51,7 +51,20 @@ module.exports.signin = (req, res, next) => {
   next();
 };
 
-module.exports.resetPasswordToken = (req, res, next) => {
+module.exports.forgotPassword = (req, res, next) => {
+  let { email } = req.body;
+  let errors = {};
+  
+  email = isEmpty(email) ? "" : email;
+
+  if (validator.isEmpty(email)) errors.email = "Email field is required";
+
+  if (!isEmpty(errors)) return res.status(400).json({ errors });
+
+  next();
+} 
+
+module.exports.resetPassword = (req, res, next) => {
   let { password, repassword } = req.body;
   let errors = {};
 

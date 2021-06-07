@@ -1,0 +1,296 @@
+.settings {
+  button {
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 1rem;
+
+    color: #fff;
+    background-color: #3b49df;
+    background-position: center;
+
+    outline: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.1s;
+
+    &:active {
+      border: none;
+      background-size: 100%;
+      transition: all 0s;
+    }
+  }
+  position: relative;
+
+
+  &__title {
+    width: 100%;
+
+    h3 {
+      padding: 1.2rem 1rem 0rem;
+      font-size: 20px;
+
+      span {
+        color: #3b49df;
+      }
+    }
+  }
+
+  &__sidebar {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    margin-top: 1rem;
+
+    &--item {
+      height: 40px;
+      border-radius: 0.25rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-left: .5rem;
+
+      span {
+        margin-left: 0.5rem;
+      }
+
+      &:hover {
+        background-color: #fff;
+      }
+
+      &:last-child {
+        margin-right: .5rem;
+      }
+    }
+  }
+
+  &__user {
+    margin: 1rem 0;
+    padding: 0.6rem;
+
+    h2 {
+      display: block;
+      font-size: 24px;
+    }
+    h3 {
+      display: block;
+      font-size: 20px;
+    }
+
+    &--title {
+      margin-bottom: 1rem;
+    }
+
+    &--sub-title {
+      margin: 1rem 0;
+
+      &:hover {
+        color: #202428;
+      }
+    }
+
+    &--checkbox {
+      input {
+        margin: 0 0.6rem 0.6rem 0;
+      }
+      label {
+        font-weight: 500;
+      }
+    }
+
+    &--content {
+      display: flex;
+    }
+
+    &--name {
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+
+    &--img {
+      width: 56px;
+      height: 56px;
+
+      img {
+        border: 2px solid #212121;
+        border-radius: 0.5rem;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    &--input {
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      input {
+        border-radius: 0.25rem;
+        border: 1px solid #b5bdc4;
+        padding: 1rem 0;
+
+        &:focus {
+          outline: none;
+          border-color: #3b49df;
+        }
+      }
+    }
+
+    &--color {
+      display: flex;
+      align-items: center;
+    }
+
+    &--color-label {
+      font-weight: 500;
+      margin-right: 3.2rem;
+    }
+
+    &--color-input {
+      width: 40px;
+      height: 40px;
+    }
+
+    &--btn {
+      width: 100%;
+      span {
+        margin-left: .5rem;
+      }
+    }
+
+    &--link {
+      display: flex;
+      flex-direction: column;
+
+      button {
+        margin-bottom: 0.8rem;
+      }
+    }
+
+    &--delete {
+      display: flex;
+      flex-direction: column;
+
+      button {
+        margin-bottom: 0.8rem;
+        background-color: #dc1818;
+      }
+    }
+
+    &--github {
+      margin: 1rem 0 0.5rem;
+    }
+
+    &--repo {
+      max-height: 400px;
+      overflow: auto;
+      margin-top: 1rem;
+    }
+  }
+
+  &__save {
+    position: fixed;
+    height: 60px;
+    background-color: #fff;
+    width: 100%;
+    bottom: 0;
+  }
+
+  &__button {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: toggle;
+    animation-duration: 0.5s;
+    animation-timing-function: ease-in-out;
+
+    button {
+      width: 90%;
+      margin: 0 auto;
+      font-weight: 600;
+    }
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .settings {
+    width: 100%;
+    margin: 4rem auto;
+
+    &__title {
+      text-align: center;
+
+      h3 {
+        padding: 2rem 1rem 1rem;
+        font-size: 24px;
+      }
+    }
+
+    &__content {
+      display: flex;
+    }
+
+    &__sidebar {
+      width: 240px;
+      display: flex;
+      flex-direction: column;
+      margin: 1rem 0 0 auto;
+
+      &--item {
+        height: 40px;
+        border: none;
+        outline: none;
+        justify-content: center;
+        width: 100%;
+        margin: 0 0 1rem 0;
+      }
+    }
+
+    &__profile, &__account, &__extensions {
+      max-width: 736px;
+      margin: 0 auto 0 0;
+      margin-left: 1rem;
+      position: relative;
+    margin-bottom: 4rem;
+    }
+
+    &__save {
+      position: sticky;
+    }
+
+    &__user {
+      &--input {
+        margin-left: 3rem;
+        input {
+          padding: 1rem;
+        }
+      }
+      &--link {
+        display: flex;
+        flex-direction: row;
+
+        button {
+          margin-right: 2rem;
+        }
+      }
+      &--delete {
+        display: flex;
+        flex-direction: row;
+
+        button {
+          margin-right: 2rem;
+        }
+      }
+    }
+  }
+}
+
+@keyframes toggle {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}

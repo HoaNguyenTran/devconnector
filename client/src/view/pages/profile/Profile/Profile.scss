@@ -1,0 +1,178 @@
+.profile {
+  button {
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 1rem;
+
+    background-color: #3b49df;
+    background-position: center;
+
+    outline: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.1s;
+
+    a {
+      color: #fff;
+    }
+
+    &:hover {
+      background: #3b49df radial-gradient(circle, transparent 1%, #505cdd 1%)
+        center/15000%;
+    }
+
+    &:active {
+      border: none;
+      background-size: 100%;
+      transition: all 0s;
+    }
+  }
+  position: relative;
+  margin-top: -1rem;
+  background-color: #eef0f1;
+
+  &__background {
+    height: 3rem;
+    width: 100%;
+    z-index: -1;
+  }
+
+  &__content {
+    width: 100%;
+    margin-top: -1rem;
+  }
+
+  &__header {
+    position: relative;
+
+    &--block {
+      position: absolute;
+      top: -1.5rem;
+      left: 1.5rem;
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+    }
+
+    img {
+      position: absolute;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      left: 0.25rem;
+      bottom: 0.25rem;
+    }
+
+    &--feature {
+      position: absolute;
+      right: 1rem;
+      top: 1rem;
+    }
+  }
+
+  &__details {
+    margin-top: 3rem;
+    position: relative;
+    padding: 1rem;
+
+    &--name {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      word-break: break-all;
+      color: #08090a;
+    }
+
+    &--bio {
+      color: #202428;
+      margin-bottom: 1rem;
+    }
+
+    &--info {
+      color: #64707d;
+      display: flex;
+      flex-wrap: wrap;
+
+      span {
+        font-size: 14px;
+      }
+
+      a {
+        color: #64707d;
+      }
+
+      svg {
+        margin-right: 0.5rem;
+      }
+    }
+
+    &--item {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      // padding: 4px 12px;
+      padding: 8px;
+    }
+
+    &--definition {
+      padding: 6px;
+      line-height: 1.2;
+    }
+
+    &--education {
+      padding: 6px;
+    }
+
+    &--work {
+      padding: 6px;
+    }
+
+    &--title {
+      color: #08090a;
+    }
+
+    &--content {
+      display: flex;
+
+      span {
+        margin-left: 5px;
+      }
+    }
+  }
+
+  &__more {
+    width: 100%;
+    margin-top: 2rem;
+    background-color: #fff !important;
+    border: 2px solid #d2d6db !important;
+  }
+
+  &__post {
+    margin-bottom: 1rem;
+    padding: 12px;
+
+    &--title {
+      margin-bottom: 12px;
+      display: flex;
+    }
+  }
+
+  &__banner {
+    &--item {
+      padding: 1rem;
+      margin-top: 1rem;
+    }
+
+    &--title {
+      padding: 12px 0;
+    }
+
+    &--des {
+      padding: 1rem 0;
+    }
+  }
+
+  &__footer {
+    margin-top: 1rem;
+  }
+}

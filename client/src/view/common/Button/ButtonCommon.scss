@@ -1,0 +1,86 @@
+.auth {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin: 1rem 0.5rem 0rem;
+
+  &__btn {
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: none;
+
+    transition: all 0.1s;
+
+    a {
+      display: inline-block;
+      width: 100%;
+      color: #fff;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    &--signup {
+      background-color: #3b49df;
+      margin-bottom: 8px;
+      width: 100%;
+
+      &:hover {
+        background: #3b49df radial-gradient(circle, transparent 1%, #505cdd 1%)
+          center/15000%;
+      }
+
+      &:active {
+        border: none;
+        background-size: 100%;
+        transition: all 0s;
+      }
+    }
+
+    &--signin {
+      background-color: #f9fafa;
+      a {
+        color: #000;
+      }
+
+      &:hover {
+        background: #f9fafa radial-gradient(circle, transparent 1%, #eee 1%)
+          center/15000%;
+      }
+
+      &:focus {
+        outline: none;
+      }
+
+      &:active {
+        border: none;
+        background-size: 100%;
+        transition: all 0s;
+      }
+    }
+  }
+}
+
+// @media screen and (min-width: 450px) {
+//   .auth {
+//     margin: 1rem 1rem 0;
+//   }
+// }
+
+// @media screen and (min-width: 768px) {
+//   .auth {
+//     margin: 2rem 2rem 1rem;
+//   }
+// }
+
+// @media screen and (min-width: 1024px) {
+//   .auth {
+//     margin: 2rem 3rem 1rem;
+//   }
+// }
+
+// @media screen and (min-width: 1200px) {
+//   .auth {
+//     margin: 2rem 4rem 1rem;
+//   }
+// }
+

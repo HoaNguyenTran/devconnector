@@ -1,0 +1,27 @@
+.getrepo {
+    line-height: 1.6;
+
+    &:hover {
+        background-color: #fff;
+    }
+
+    &__content {
+        padding: .5rem 0;
+        display: block;
+    }
+
+    &__title {
+        &:hover {
+            color: #3b49df;
+        }
+    }
+
+    &__fork {
+        background-color: #d2d6db;
+        border-radius: 8px;
+        border: 1px solid #b2b6db;
+        display: inline-block;
+        padding: 0 8px;
+        color: #000;
+    }
+}
