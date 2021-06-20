@@ -3,7 +3,6 @@ import React, { lazy, Suspense } from "react";
 import Banner from "../../../components/Banner/Banner";
 import RightSidebar from "../../../components/Sidebar/RightSideBar/RightSideBar";
 import Main from "../Main/Main";
-// import { TagSideBar } from "../../components/Sidebar/TagSideBar/TagSideBar";
 import "./Presentation.scss";
 
 const TagSideBar = lazy(() =>
@@ -15,15 +14,16 @@ export const Presentation = () => {
     <div className="presentation">
       <div className="presentation__left">
         <Banner />
-        <Suspense fallback={<Skeleton variant="rect" width={280} height={380} />}>
+        <Suspense fallback={<Skeleton variant="rect" height={380} />}>
           <TagSideBar />
         </Suspense>
       </div>
+      <div className="presentation__center">
         <Main />
-        <div className="presentation__right">
-
+      </div>
+      <div className="presentation__right">
         <RightSidebar />
-        </div>
+      </div>
     </div>
   );
 };

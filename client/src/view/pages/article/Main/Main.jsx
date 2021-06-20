@@ -19,9 +19,7 @@ const Main = () => {
   useEffect(() => {
     const fetchAgain = () => {
       setStep(step + 1);
-      console.log("b")
       if (articles.length > 0) {
-        console.log("c")
         dispatch(fetchFullPost({skip: step*20}));
       }
     };
@@ -41,7 +39,6 @@ const Main = () => {
       );
       const windowBottom = windowheight + window.pageYOffset;
       if (windowBottom >= docHeight ) {
-        console.log("a")
         fetchAgain();
       }
     };
@@ -49,16 +46,19 @@ const Main = () => {
     window.addEventListener("scroll", handleScroll);
 
     return () => window.removeEventListener("scroll", handleScroll);
+    // eslint-disable-next-line
   }, [articles]);
 
   useEffect(() => {
-    dispatch(fetchFullPost({ skip: step * 20 }));
+    dispatch(fetchFullPost({ skip: step * 10 }));
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
     if (fullPost.data) {
       setArticles([...articles, ...fullPost.data]);
     }
+    // eslint-disable-next-line
   }, [fullPost.data]);
 
   const handleChange = (e) => {
@@ -68,9 +68,6 @@ const Main = () => {
   return (
     <main className="main">
       <header>
-        <button onClick={() => dispatch(fetchFullPost({ skip: 3 }))}>
-          Click
-        </button>
         <h1>Post</h1>
         {size.width > 768 ? (
           <nav>

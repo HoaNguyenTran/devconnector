@@ -11,7 +11,7 @@ const Post = (props) => {
 
   useEffect(() => {
     dispatch(fetchSlugPost(props.match.url));
-    
+    // eslint-disable-next-line
   }, [props.match.url]);
 
   useEffect(() => {

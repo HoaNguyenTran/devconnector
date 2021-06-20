@@ -77,7 +77,6 @@ const profile = {
   getRepo: async (req, res) => {
     try {
       const data = req.body;
-      console.log(data);
       const profile = await Profile.findOneAndUpdate(
         { userId: req.user._id },
         { repo: data }

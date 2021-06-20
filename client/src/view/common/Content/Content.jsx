@@ -14,8 +14,6 @@ export const Content = ({slugPost}) => {
     tags,
     title,
     content,
-    slug,
-    action,
     timeEstimate,
     createdAt,
     updatedAt,
@@ -41,6 +39,7 @@ export const Content = ({slugPost}) => {
   useEffect(() => {
     setEditorState(content);
     handleDatePost({createdAt, updatedAt});
+    // eslint-disable-next-line
   }, []);
 
   const sideBar = (

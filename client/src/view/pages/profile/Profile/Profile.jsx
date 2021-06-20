@@ -21,9 +21,10 @@ import InstagramIcon from "@material-ui/icons/Instagram";
 import LinkedInIcon from "@material-ui/icons/LinkedIn";
 import Footer from "../../../components/Footer/Footer";
 import { GetRepo } from "../../../common/Repo/GetRepo";
-import moment from "moment";
+import { ArticleComponent } from "../../../common/ArticleComponent/ArticleComponent";
+import { useWindowSize } from "../../../../hook/useWindowSize";
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     borderRadius: "8px",
     backgroundColor: "#f9fafa",
@@ -34,6 +35,7 @@ export default function Profile() {
   const { username } = useParams();
   const classes = useStyles();
   const dispatch = useDispatch();
+  const size = useWindowSize();
 
   const fetchFull = (data) => dispatch(fetchPostFullInfo(data));
   const fetchAuthor = (data) => dispatch(fetchAuthorRoute(data));
@@ -58,8 +60,15 @@ export default function Profile() {
   useEffect(() => {
     fetchFull({ username });
     fetchAuthor({ username });
+    
     // eslint-disable-next-line
   }, []);
+
+  useEffect(() => {
+    if (size.width > 768) {
+      setMore(true);
+    }
+  }, [size.width])
 
   useEffect(() => {
     if (
@@ -81,18 +90,6 @@ export default function Profile() {
       setAuthor(true);
     }
   }, [authorRoute]);
-
-  const handleDatePost = (updatedAt) => {
-    let string = "";
-
-    if (moment(updatedAt).format("YYYY") !== moment().year()) {
-      string += moment(updatedAt).format("MMM Do");
-    } else {
-      string += moment(updatedAt).format("MMM Do YYYY");
-    }
-
-    return string;
-  };
 
   const formatDate = (date) => {
     const newDate = new Date(date);
@@ -140,7 +137,7 @@ export default function Profile() {
               </button>
             )}
           </div>
-          <Card className={classes.root}>
+          <Card className={`${classes.root} profile__card`} >
             <div className="profile__details">
               <div className="profile__details--name">
                 <h2>{full.data.name}</h2>
@@ -156,27 +153,31 @@ export default function Profile() {
                   </div>
                 )}
                 <div className="profile__details--item">
-                  <CakeIcon />
+                  <div>
+                    <CakeIcon />
+                  </div>
                   <span>Joined on {formatDate(full.data.dateJoin)}</span>
                 </div>
-                {full.data.displayEmail && (
-                  <a
-                    href={`mailto:${full.data.email}`}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="profile__details--item"
-                  >
-                    <EmailIcon />
-                    <span>{full.data.email}</span>
-                  </a>
-                )}
+
+                
+                  {full.data.displayEmail && (
+                    <a
+                      href={`mailto:${full.data.email}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="profile__details--item"
+                    >
+                      <EmailIcon />
+                      <span>{full.data.email}</span>
+                    </a>
+                  )}
+                
                 <div className="profile__details--item">
                   {full.data.websiteUrl && (
                     <a
                       href={full.data.websiteUrl}
                       target="_blank"
                       rel="noreferrer"
-                      className="profile__details--email"
                     >
                       <LinkIcon />
                     </a>
@@ -268,7 +269,7 @@ export default function Profile() {
               </div>
             </div>
           </Card>
-          <div>
+          <div className="profile__main">
             {more && (
               <div className="profile__banner">
                 {full.data.repo.length > 0 && (
@@ -305,19 +306,11 @@ export default function Profile() {
                   })}
               </div>
             )}
-            {full.data.post.map((item, index) => (
-              <Card key={index} className="profile__post">
-                <div className="profile__post--title">
-                  <div>
-                    <img src={full.data.avatar} alt="" />
-                  </div>
-                  <div>
-                    <div>{full.data.name}</div>
-                    <div>{handleDatePost(item.updatedAt)}</div>
-                  </div>
-                </div>
-              </Card>
-            ))}
+            <div className="profile__article">
+              {full.data.post.reverse().map((item, index) => (
+                <ArticleComponent key={index} data={{ ...item }} />
+              ))}
+            </div>
           </div>
         </div>
         <div className="profile__footer">

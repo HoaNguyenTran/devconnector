@@ -4,8 +4,6 @@
   "description": "Social network for developers",
   "main": "index.js",
   "scripts": {
-    "client-install": "npm install --prefix client",
-    "server-install": "npm install --prefix server",
     "client": "npm start --prefix client",
     "server": "npm run server --prefix server",
     "dev": "concurrently \"npm run server\" \"npm run client\""

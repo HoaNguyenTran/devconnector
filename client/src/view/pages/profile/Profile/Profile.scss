@@ -110,7 +110,6 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      // padding: 4px 12px;
       padding: 8px;
     }
 
@@ -147,20 +146,19 @@
     border: 2px solid #d2d6db !important;
   }
 
-  &__post {
-    margin-bottom: 1rem;
-    padding: 12px;
-
-    &--title {
-      margin-bottom: 12px;
-      display: flex;
-    }
+  &__main {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
   }
 
   &__banner {
+    max-width: 325px;
+    width: 100%;
+
     &--item {
       padding: 1rem;
-      margin-top: 1rem;
+      margin-top: 12px;
     }
 
     &--title {
@@ -171,8 +169,58 @@
       padding: 1rem 0;
     }
   }
+  &__article {
+    max-width: 650px;
+  }
 
   &__footer {
     margin-top: 1rem;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .profile {
+    &__background {
+      height: 7rem;
+    }
+
+    &__card {
+      margin: 0 0.5rem;
+    }
+
+    &__content {
+      margin-top: -3rem;
+    }
+
+    &__header {
+      &--block {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 128px;
+        height: 128px;
+
+        img {
+          width: 112px;
+          height: 112px;
+          border-radius: 50%;
+          left: 0.5rem;
+          bottom: 0.5rem;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 1025px) {
+  .profile {
+    &__card {
+      margin: 0;
+    }
+
+    &__content {
+      max-width: 992px;
+      margin: -3rem auto 0;
+    }
   }
 }

@@ -1,9 +1,8 @@
 .article {
-
-  margin-top: 0.8rem;
+  margin: 12px 0;
 
   &__wrapper {
-    padding: 1rem;
+    padding: 8px 12px;
   }
 
   &__title {
@@ -45,13 +44,11 @@
   }
 
   &__content {
-    padding-left: 3rem;
-
     &--name {
       a {
         letter-spacing: -0.5px;
         font-weight: 700;
-        font-size: 24px;
+        font-size: 20px;
         color: #08090a;
       }
 
@@ -94,9 +91,13 @@
       display: flex;
       align-items: center;
 
-      span {
+      p {
         font-size: 14px;
         color: #000;
+
+        span {
+          display: none;
+        }
       }
     }
 
@@ -115,9 +116,42 @@
         padding: 8px 12px;
 
         &:hover {
-            background-color: #b5bdc4;
+          background-color: #b5bdc4;
         }
       }
     }
   }
 }
+
+@media screen and (min-width: 768px) {
+  .article {
+    &__wapper {
+      padding: 1rem;
+    }
+
+    &__content {
+      margin-left: 3rem;
+      
+      &--name {
+        a {
+          font-size: 24px;
+        }
+      }
+    }
+
+    &__bottom {
+      &--like,
+      &--comment {
+        p {
+          display: flex;
+          gap: 0.5rem;
+
+          span {
+            display: block;
+          }
+        }
+      }
+    }
+  }
+}
+

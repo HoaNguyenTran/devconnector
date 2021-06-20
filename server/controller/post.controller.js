@@ -113,7 +113,7 @@ module.exports = {
         {},
         { username: 1, name: 1, avatar: 1, createdAt: 1, updatedAt: 1, cover: 1, title: 1, tags: 1, slug: 1, timeEstimate: 1 }
       )
-        .limit(7)
+        .limit(10)
         .skip(req.body.skip);
 
       res.json(post)

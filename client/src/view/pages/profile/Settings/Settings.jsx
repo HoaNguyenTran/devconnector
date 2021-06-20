@@ -22,7 +22,6 @@ import {
   fetchGetRepo,
 } from "../../../../redux/actions/profile.action";
 import { SetRepo } from "../../../common/Repo/SetRepo";
-import { useLocation } from "react-router";
 
 const useStyles = makeStyles({
   card: {

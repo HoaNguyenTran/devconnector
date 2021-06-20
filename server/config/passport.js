@@ -14,12 +14,10 @@ const cookieExtractor = (req) => {
 };
 
 passport.serializeUser((user, done) => {
-  console.log("ser");
   return done(null, user._id);
 });
 
 passport.deserializeUser((id, done) => {
-  console.log("des");
   User.findById(id, (err, user) => {
     return done(null, user);
   });
@@ -45,7 +43,7 @@ passport.use(
 
         // Otherwise, return the user
         req.user = user;
-        // console.log(user);
+        
         return done(null, req.user);
       } catch (error) {
         done(error, false);

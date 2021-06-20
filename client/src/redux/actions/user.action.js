@@ -112,7 +112,6 @@ export const fetchSignIn = (data) =>  (dispatch) => {
     .post("/api/users/signin", data)
     .then((responsive) => {
       dispatch(fetchSignInSuccess(responsive.data));
-      console.log(history)
       if(history.location.state) {
         history.push(`/${history.location.state.from}`)
         window.location.reload();

@@ -1,12 +1,11 @@
 .rightsidebar {
   display: flex;
   flex-direction: column;
+  max-width: 325px;
 
   &__card {
     margin: .5rem 0;
-    border-radius: 5px;
     line-height: 1.5;
-    height: max-content;
 
     header {
       display: flex;
@@ -14,7 +13,6 @@
       padding: 0.5rem 1rem;
 
       h3 {
-        font-size: 1.25rem;
         flex: 1;
       }
       small {
@@ -25,7 +23,7 @@
 
     li {
       display: block;
-      padding: 1rem;
+      padding: 12px 1rem;
       cursor: pointer;
       transition: all 0.2s;
       &:hover {

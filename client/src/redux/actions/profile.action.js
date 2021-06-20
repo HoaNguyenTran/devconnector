@@ -42,7 +42,6 @@ export const fetchGetFullInfo = () => (dispatch) => {
 };
 
 export const fetchSetInfo = (data) => (dispatch) => {
-  console.log(data)
   dispatch(fetchSetInfoRequest());
   axios
     .post("/api/profile/set-info", data)

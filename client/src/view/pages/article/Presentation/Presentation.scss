@@ -1,12 +1,38 @@
 .presentation {
     display: flex;
     justify-content: center;
-    gap: 1rem; 
     
     &__left {
-        max-width: 280px;
+        display: none;
     }
+
+    &__center {
+        flex-grow: 1;
+        margin: 0 12px;
+    }
+
     &__right {
         max-width: 325px;
+        display: none;
     }
 }
+
+@media screen and (min-width: 768px) {
+    .presentation {
+        &__left {
+            margin-left: 12px;
+            max-width: 280px;
+            min-width: 200px;
+            display: block;
+        }
+    }
+}
+
+@media screen and (min-width: 1025px) {
+  .presentation {
+      &__right {
+          margin-right: 12px;
+          display: block;
+      }
+  }
+} 
